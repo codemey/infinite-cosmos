@@ -12,7 +12,7 @@
         <div class="codeSnippet-essence">
             <div class="ic-card" v-for="item in data" :key="item">
                 <div class="snippet-header">
-                    <span title="编辑" v-if="!item.editable" @click="item.editable=!item.editable">
+                    <span title="编辑" v-if="!item.editable" @click="item.editable = !item.editable">
                         <icon-edit class="hover-pointer"></icon-edit>
                     </span>
                     <span title="保存" v-else @click="save(item)">
@@ -28,7 +28,7 @@
                         <icon-delete class="hover-pointer"></icon-delete>
                     </span>
                 </div>
-                <div class="snippet-content" v-if="!item.editable" v-text="item.content"> </div>
+                <pre class="snippet-content" v-if="!item.editable" v-highlight>{{ item.content }} </pre>
                 <div class="snippet-content" v-else>
                     <v-ace-editor v-model:value="item.content" lang="html" theme="github" style="height: 300px" />
                 </div>
@@ -100,9 +100,11 @@ const del = (item) => {
     height: 100%;
     padding: 10px;
     padding-right: 150px;
+
     .codeSnippet-header {
         display: flex;
         justify-content: flex-end;
+
         .add {
             width: 40px;
             display: flex;
@@ -112,10 +114,12 @@ const del = (item) => {
             border-radius: var(--border-radius-2);
             margin: 0 10px;
             cursor: pointer;
+
             &:hover {
                 background-color: var(--bg-color-1);
             }
         }
+
         .search {
             height: 30px;
             width: 150px;
@@ -132,14 +136,17 @@ const del = (item) => {
             }
         }
     }
+
     .codeSnippet-essence {
         overflow: auto;
         height: calc(100vh - 50px);
         border-radius: var(--border-radius-3);
         margin-top: 10px;
+
         .ic-card {
             white-space: pre-wrap;
             margin-bottom: 10px;
+
             .snippet-header {
                 height: 25px;
                 width: 100%;
@@ -148,16 +155,18 @@ const del = (item) => {
                 svg {
                     margin: 0 5px;
                 }
+
                 & svg:hover {
                     background-color: var(--bg-color-3);
                 }
             }
+
             .snippet-content {
-                background-color: var(--bg-color-2);
                 border-radius: var(--border-radius-2);
                 margin: 10px;
                 padding: 10px;
             }
+
             .snippet-footer {
                 margin: 10px;
             }

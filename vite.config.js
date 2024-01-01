@@ -17,7 +17,7 @@ export default defineConfig({
         },
         proxy: {
             '/api/': {
-                target: 'http://192.168.0.80:3000/',
+                target: 'http://localhost:3000/',
                 ws: true,
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api\//, '/'), // 如果需要重写请求路径

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.6.3",
+    "highlight.js": "^11.9.0",
     "vue": "^3.3.11",
     "vue-router": "^4.0.13",
     "vue3-ace-editor": "^2.2.4"
