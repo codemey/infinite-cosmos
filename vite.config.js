@@ -9,4 +9,19 @@ export default defineConfig({
             '@': '/src',
         },
     },
+    server: {
+        host: '0.0.0.0',
+        port: 5100,
+        hmr: {
+            overlay: true,
+        },
+        proxy: {
+            '/api/': {
+                target: 'http://192.168.0.80:3000/',
+                ws: true,
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api\//, '/'), // 如果需要重写请求路径
+            },
+        }
+    },
 })
