@@ -1,7 +1,0 @@
-export { default as Search } from './Search.vue'
-export { default as Expand } from './Expand.vue'
-export { default as Copy } from './Copy.vue'
-export { default as Add } from './Add.vue'
-export { default as Edit } from './Edit.vue'
-export { default as Save } from './Save.vue'
-export { default as Delete } from './Delete.vue'

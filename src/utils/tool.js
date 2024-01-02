@@ -1,3 +1,4 @@
+// 复制到剪切板
 export const copyToClipboard = (text) => {
     const el = document.createElement('textarea'); // 创建一个临时的 textarea 元素
     el.value = text; // 设置文本内容

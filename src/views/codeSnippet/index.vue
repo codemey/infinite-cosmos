@@ -4,10 +4,7 @@
             <div class="add" @click="addCodeSnippet">
                 <icon-add></icon-add>
             </div>
-            <div class="search">
-                <icon-search></icon-search>
-                <input type="text" placeholder="filter">
-            </div>
+            <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
         </div>
         <div class="codeSnippet-essence">
             <div class="ic-card" v-for="item in data" :key="item">
@@ -28,12 +25,13 @@
                         <icon-delete class="hover-pointer"></icon-delete>
                     </span>
                 </div>
-                <pre class="snippet-content" v-if="!item.editable" v-highlight>{{ item.content }} </pre>
+                <icCodeHighlight v-if="!item.editable" :code="item.content"></icCodeHighlight>
                 <div class="snippet-content" v-else>
-                    <v-ace-editor v-model:value="item.content" lang="html" theme="github" style="height: 300px" />
+                    <icCodeEditor v-model:value="item.content" />
                 </div>
                 <div class="snippet-footer">
-                    {{ item.desc }}
+                    <textarea v-if="item.editable" v-model="item.desc" />
+                    <span v-else>{{ item.desc }}</span>
                 </div>
             </div>
         </div>
@@ -43,17 +41,14 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/codeSnippet"
-import { VAceEditor } from "vue3-ace-editor"
 import { copyToClipboard } from '@/utils/tool'
-import '@/utils/aceConfig.js'
-// const vue3AceEditor = () => import('vue3-ace-editor')
-// console.log(vue3AceEditor);
+
 onMounted(() => {
     doSearch()
 })
 //表单
 const form = reactive({
-    content: "",
+    keyword: "",
     page: 1,
     pageSize: 10,
 });
@@ -76,11 +71,11 @@ const save = (item) => {
     const queryData = {
         id: item.id,
         content: item.content,
-        desc: '这是一段神秘代码' + new Date()
+        desc: item.desc
     }
     api.save(queryData).then(res => {
-        console.log(res);
         item.editable = !item.editable
+        doSearch()
     })
 }
 //复制
@@ -89,8 +84,11 @@ const copy = (item) => {
 }
 //删除
 const del = (item) => {
-    api.delete(item).then(res => {
-        doSearch()
+    ElMessageBox.confirm('确认删除?').then(() => {
+        api.delete(item).then(res => {
+            ElMessage.success('删除成功')
+            doSearch()
+        })
     })
 }
 </script>
@@ -117,22 +115,6 @@ const del = (item) => {
 
             &:hover {
                 background-color: var(--bg-color-1);
-            }
-        }
-
-        .search {
-            height: 30px;
-            width: 150px;
-            padding: 5px;
-            background-color: var(--bg-color-2);
-            border-radius: var(--border-radius-2);
-            transition: width 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-
-            &:hover {
-                width: 250px;
             }
         }
     }

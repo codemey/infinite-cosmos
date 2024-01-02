@@ -5,7 +5,7 @@
             <h2>代码片段</h2>
         </div>
         <div class="ic-card">
-            <h2>其他</h2>
+            <h2>表格列转换</h2>
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@ const go = (url) => {
 .ic-container {
     width: 100vw;
     height: 100vh;
-   
+
     display: flex;
     padding: 2px;
 
