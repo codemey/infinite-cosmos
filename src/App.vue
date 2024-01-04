@@ -1,29 +1,35 @@
 <template>
-    <div class="container">
-        <div class="left-navbar">
-            <router-link class="left-nav-item" to="/">主页</router-link>
-            <div class="left-nav-item">设置</div>
+    <el-config-provider :locale="zhCn">
+        <div class="container">
+            <div class="left-navbar">
+                <router-link class="left-nav-item" to="/">
+                    <icon-home class="hover-pointer"></icon-home>
+                </router-link>
+                <router-link class="left-nav-item" to="/">
+                    <icon-setting class="hover-pointer"></icon-setting>
+                </router-link>
+            </div>
+            <div class="right-essence">
+                <router-view> </router-view>
+            </div>
         </div>
-        <div class="right-essence">
-            <router-view> </router-view>
-        </div>
-    </div>
+    </el-config-provider>
 </template>
 
-
 <script setup>
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 const imgUrl = 'url(img/ic.jpg)'
 </script>
 
-
 <style lang="scss">
-@import "@/style/index.scss";
+@use "@/style/index.scss" as *;
 
 .container {
     display: flex;
     background-image: v-bind("imgUrl");
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100%;
     .left-navbar {
         position: fixed;
         width: 50px;
@@ -31,11 +37,12 @@ const imgUrl = 'url(img/ic.jpg)'
         bottom: 50vh;
         display: flex;
         flex-wrap: wrap;
-        background-color: var(--bg-color-3);
+        background: var(--bg-color-linear);
         border-radius: var(--border-radius-3);
         .left-nav-item {
             width: 100%;
             text-align: center;
+            margin: 5px;
         }
     }
     .right-essence {

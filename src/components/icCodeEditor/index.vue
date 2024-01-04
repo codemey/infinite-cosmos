@@ -1,6 +1,6 @@
 <!-- 代码编辑器 -->
 <template>
-    <v-ace-editor v-model:value="value" lang="javascript" theme="chrome" style="height: 300px;font-size: 16px;" />
+    <v-ace-editor v-model:value="value" lang="javascript" theme="chrome" style="height: 400px;width:100%;font-size: 16px;" />
 </template>
 
 <script setup>

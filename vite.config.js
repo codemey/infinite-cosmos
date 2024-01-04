@@ -12,7 +12,7 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()],
         }),
         Components({
-            resolvers: [ElementPlusResolver()],
+            resolvers: [ElementPlusResolver({ importStyle: "sass" })],
             dirs: ['src/components'],   //自动引入自定义组件
             dts: 'src/components.d.ts'  //生成组件配置文件
         }),
@@ -20,6 +20,13 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': '/src',
+        },
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@use "@/style/element/index.scss" as *;`,
+            },
         },
     },
     server: {

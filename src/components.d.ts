@@ -7,6 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./components/icon/iconAdd copy.vue')['default']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElInput: typeof import('element-plus/es')['ElInput']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     IcCodeEditor: typeof import('./components/icCodeEditor/index.vue')['default']
     IcCodeHighlight: typeof import('./components/icCodeHighlight/index.vue')['default']
     IcFilter: typeof import('./components/icFilter/index.vue')['default']
@@ -15,8 +21,11 @@ declare module 'vue' {
     IconDelete: typeof import('./components/icon/iconDelete.vue')['default']
     IconEdit: typeof import('./components/icon/iconEdit.vue')['default']
     IconExpand: typeof import('./components/icon/iconExpand.vue')['default']
+    IconHome: typeof import('./components/icon/iconHome.vue')['default']
     IconSave: typeof import('./components/icon/iconSave.vue')['default']
     IconSearch: typeof import('./components/icon/iconSearch.vue')['default']
+    IconSetting: typeof import('./components/icon/iconSetting.vue')['default']
+    IconSettingf: typeof import('./components/icon/iconSettingf.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

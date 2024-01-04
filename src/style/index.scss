@@ -1,6 +1,8 @@
-@import 'bright.scss';
+@use 'bright.scss' as *;
 
-#app, body, html {
+#app,
+body,
+html {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -14,13 +16,19 @@
 svg {
     height: 25px;
     width: 25px;
+    background: none;
 }
 
 .hover-pointer {
     cursor: pointer;
+
+    &:hover {
+        transform: scale(1.2);
+    }
 }
 
-input, textarea {
+input,
+textarea {
     height: 100%;
     width: 100%;
     color: var(--text-color);
@@ -37,4 +45,72 @@ input, textarea {
     background: var(--bg-color-1);
     border-radius: var(--border-radius-3);
     font-size: 16px;
+}
+
+// border动画
+.ic-border-animation {
+    position: relative;
+
+    &:hover::after,
+    &:hover::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: 3px solid var(--theme-color-3);
+        border-radius: 20px;
+        animation: clippath 3s linear;
+    }
+
+    &:hover::after {
+        animation: clippath 3s -1.5s linear;
+    }
+}
+
+@keyframes clippath {
+
+    0%,
+    100% {
+        clip-path: inset(0 0 50% 0);
+    }
+
+    // 25% {
+    //     clip-path: inset(0 70% 0 0);
+    // }
+
+    50% {
+        clip-path: inset(50% 0 0 0);
+    }
+
+    // 75% {
+    //     clip-path: inset(0 0 0 70%);
+    // }
+}
+
+.more-mask {
+    position: relative;
+    height: 500px;
+    overflow: hidden !important;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        background: var(--bg-color-linear);
+        bottom: 0;
+        opacity: 0.7;
+    }
+
+    &::before {
+        content: '＜＜＜';
+        position: absolute;
+        bottom: -4px;
+        left: calc(50% - 23px);
+        transform: rotate(-90deg) scaleY(2);
+        color: var(--theme-color-1);
+        z-index: 10;
+    }
 }

@@ -1,3 +1,8 @@
+import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
+import 'element-plus/theme-chalk/el-button.css';
+
 // 复制到剪切板
 export const copyToClipboard = (text) => {
     const el = document.createElement('textarea'); // 创建一个临时的 textarea 元素
@@ -10,3 +15,7 @@ export const copyToClipboard = (text) => {
     document.execCommand('copy'); // 执行复制操作
     document.body.removeChild(el); // 复制完成后移除元素
 }
+
+export const message = ElMessage
+
+export const messageBox = ElMessageBox

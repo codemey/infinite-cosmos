@@ -11,6 +11,11 @@ const routes = [
         name: 'codeSnippet',
         component: () => import('@/views/codeSnippet/index.vue'),
     },
+    {
+        path: '/jsonToTable',
+        name: 'jsonToTable',
+        component: () => import('@/views/jsonToTable/index.vue'),
+    },
 ];
 
 const router = createRouter({
