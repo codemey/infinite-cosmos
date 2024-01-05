@@ -1,12 +1,16 @@
 <template>
     <el-config-provider :locale="zhCn">
-        <div class="container">
+        <div class="home">
             <div class="left-navbar">
                 <router-link class="left-nav-item" to="/">
                     <icon-home class="hover-pointer"></icon-home>
                 </router-link>
                 <router-link class="left-nav-item" to="/">
                     <icon-setting class="hover-pointer"></icon-setting>
+                </router-link>
+
+                <router-link class="left-nav-item" to="/">
+                    <icon-bbt class="hover-pointer"></icon-bbt>
                 </router-link>
             </div>
             <div class="right-essence">
@@ -23,8 +27,7 @@ const imgUrl = 'url(img/ic.jpg)'
 
 <style lang="scss">
 @use "@/style/index.scss" as *;
-
-.container {
+.home {
     display: flex;
     background-image: v-bind("imgUrl");
     background-repeat: no-repeat;
@@ -47,7 +50,7 @@ const imgUrl = 'url(img/ic.jpg)'
     }
     .right-essence {
         margin-left: 100px;
-        width: 100%;
+        width: calc(100% - 100px);
     }
 }
 </style>

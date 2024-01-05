@@ -1,6 +1,8 @@
-<!-- 代码编辑器 -->
+<!-- 代码编辑器
+123
+-->
 <template>
-    <v-ace-editor v-model:value="value" lang="javascript" theme="chrome" style="height: 400px;width:100%;font-size: 16px;" />
+    <v-ace-editor class="v-ace-editor" v-model:value="value" lang="javascript" theme="chrome" />
 </template>
 
 <script setup>
@@ -15,7 +17,16 @@ const VAceEditor = defineAsyncComponent(async () => {
     })
 })
 
-const props = defineProps(['modelValue'])
+const props = defineProps({
+    modelValue: {
+        type: String,
+        required: true,
+    },
+    height: {
+        type: String,
+        default: '400px',
+    }
+})
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -28,4 +39,10 @@ const value = computed({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-ace-editor {
+    height: v-bind(height);
+    width: 100%;
+    font-size: 16px;
+}
+</style>

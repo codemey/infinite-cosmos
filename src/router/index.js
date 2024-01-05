@@ -16,6 +16,16 @@ const routes = [
         name: 'jsonToTable',
         component: () => import('@/views/jsonToTable/index.vue'),
     },
+    {
+        path: '/reportManagement',
+        name: 'reportManagement',
+        component: () => import('@/views/reportManagement/index.vue'),
+    },
+    {
+        path: '/pwdManagement',
+        name: 'pwdManagement',
+        component: () => import('@/views/pwdManagement/index.vue'),
+    },
 ];
 
 const router = createRouter({

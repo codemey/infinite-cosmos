@@ -7,10 +7,10 @@
         <div class="ic-card ic-border-animation" @click="go('/jsonToTable')">
             <h2>表格列转换</h2>
         </div>
-        <div class="ic-card ic-border-animation" @click="go('/')">
+        <div class="ic-card ic-border-animation" @click="go('/reportManagement')">
             <h2>报表管理</h2>
         </div>
-        <div class="ic-card ic-border-animation" @click="go('/')">
+        <div class="ic-card ic-border-animation" @click="go('/pwdManagement')">
             <h2>密码管理</h2>
         </div>
     </div>

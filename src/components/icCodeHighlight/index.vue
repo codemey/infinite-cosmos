@@ -16,12 +16,17 @@ const hljs = defineAsyncComponent(async () => {
     })
 })
 
-const props = defineProps(['code'])
+const props = defineProps(['code', 'height'])
 </script>
 
 <style lang="scss" scoped>
 :deep(code, pre) {
     border-radius: 10px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        Liberation Mono, Courier New, monospace;
+}
+:deep(code) {
+    height: v-bind(height);
+    overflow: auto;
 }
 </style>

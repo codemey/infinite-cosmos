@@ -1,46 +1,48 @@
 <template>
-    <div class="codeSnippet-container">
-        <div class="codeSnippet-header">
+    <icPage>
+        <template #header>
             <div class="add" @click="addCodeSnippet">
                 <icon-add></icon-add>
             </div>
             <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
-        </div>
-        <div class="codeSnippet-essence">
-            <div class="ic-card" v-for="item in data" :key="item">
-                <div class="snippet-header">
-                    <span title="编辑" v-if="!item.editable">
-                        <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
-                    </span>
-                    <span title="保存" v-else>
-                        <icon-save class="hover-pointer" @click="save(item)"></icon-save>
-                    </span>
-                    <span title="复制代码">
-                        <icon-copy class="hover-pointer" @click="copy(item)"></icon-copy>
-                    </span>
-                    <span title="展开">
-                        <icon-expand class="hover-pointer" @click="expand(item)"></icon-expand>
-                    </span>
-                    <span title="删除" style="fill: red;">
-                        <icon-delete class="hover-pointer" @click="del(item)"></icon-delete>
-                    </span>
+        </template>
+        <template #main>
+            <div class="ic-card" v-for="(item,index) in data" :key="item">
+                <div class="snippet-header" :class="'a'+index">
+                    <el-affix :target="'body'" :offset="90">
+                        <span title="编辑" v-if="!item.editable">
+                            <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
+                        </span>
+                        <span title="保存" v-else>
+                            <icon-save class="hover-pointer" @click="save(item)"></icon-save>
+                        </span>
+                        <span title="复制代码">
+                            <icon-copy class="hover-pointer" @click="copy(item)"></icon-copy>
+                        </span>
+                        <span title="展开">
+                            <icon-expand class="hover-pointer" @click="expand(item)"></icon-expand>
+                        </span>
+                        <span title="删除" style="fill: red;">
+                            <icon-delete class="hover-pointer" @click="del(item)"></icon-delete>
+                        </span>
+                    </el-affix>
                 </div>
                 <div class="snippet-content" :class="item.collapse?'more-mask':''" v-if="!item.editable">
                     <icCodeHighlight :code="item.content"></icCodeHighlight>
                 </div>
                 <div class="snippet-content" v-else>
-                    <icCodeEditor v-model:value="item.content" />
+                    <icCodeEditor v-model="item.content" />
                 </div>
                 <div class="snippet-footer">
                     <textarea v-if="item.editable" v-model="item.desc" />
                     <span v-else>{{ item.desc }}</span>
                 </div>
             </div>
-        </div>
-        <div class="codeSnippet-footer">
-            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="prev, pager, next" :total="total" @current-change="doSearch" />
-        </div>
-    </div>
+        </template>
+        <template #footer>
+            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
+        </template>
+    </icPage>
 </template>
 
 <script setup>
@@ -114,66 +116,44 @@ const del = (item) => {
 </script>
 
 <style lang="scss" scoped>
-.codeSnippet-container {
-    height: 100%;
-    padding: 10px;
-    padding-right: 150px;
+.add {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color-2);
+    border-radius: var(--border-radius-2);
+    margin: 0 10px;
+    cursor: pointer;
 
-    .codeSnippet-header {
-        display: flex;
-        justify-content: flex-end;
-        padding: 10px;
+    &:hover {
+        background-color: var(--bg-color-1);
+    }
+}
+.ic-card {
+    white-space: pre-wrap;
+    margin-bottom: 10px;
 
-        .add {
-            width: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--bg-color-2);
-            border-radius: var(--border-radius-2);
-            margin: 0 10px;
-            cursor: pointer;
+    .snippet-header {
+        height: 25px;
+        width: 100%;
+        text-align: right;
 
-            &:hover {
-                background-color: var(--bg-color-1);
-            }
+        svg {
+            margin: 0 5px;
         }
     }
 
-    .codeSnippet-essence {
-        overflow: auto;
-        height: calc(100vh - 150px);
-        border-radius: var(--border-radius-3);
-        margin: 10px 0;
-
-        .ic-card {
-            white-space: pre-wrap;
-            margin-bottom: 10px;
-
-            .snippet-header {
-                height: 25px;
-                width: 100%;
-                text-align: right;
-
-                svg {
-                    margin: 0 5px;
-                }
-            }
-
-            .snippet-content {
-                border-radius: var(--border-radius-2);
-                margin: 10px;
-            }
-
-            .snippet-footer {
-                margin: 10px;
-            }
-        }
+    .snippet-content {
+        border-radius: var(--border-radius-2);
+        margin: 10px;
     }
-    .codeSnippet-footer {
-        .el-pagination {
-            justify-content: flex-end;
-        }
+
+    .snippet-footer {
+        margin: 10px;
     }
+}
+.el-pagination {
+    justify-content: flex-end;
 }
 </style>
