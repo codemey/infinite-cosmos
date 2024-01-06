@@ -1,5 +1,5 @@
 import axios from 'axios'
-const prePath = '/code-snippet'
+const prePath = '/pwd-management'
 axios.defaults.baseURL = '/api'
 
 export default {
@@ -8,7 +8,7 @@ export default {
 
     query: (data) => axios.post(`${prePath}/query`, data).then(res => res.data),
 
-    delete: (data) => axios.delete(`${prePath}/${data.id}`).then(res => res.data),
+    delete: (id) => axios.delete(`${prePath}/${id}`).then(res => res.data),
 
     save: (data) => {
         if (data.id) {
@@ -17,4 +17,7 @@ export default {
             return axios.post(`${prePath}`, data).then(res => res.data)
         }
     },
+
+    getById: (id) => axios.get(`${prePath}/${id}`).then(res => res.data),
+
 }

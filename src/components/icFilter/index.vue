@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue', 'onEnter'])
@@ -18,6 +18,9 @@ const value = computed({
     set(val) {
         emit('update:modelValue', val)
     }
+})
+watch(value, val => {
+    if (!val) emit('onEnter', val)
 })
 const onEnter = () => {
     emit('onEnter', value)

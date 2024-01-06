@@ -7,24 +7,24 @@ const routes = [
         component: () => import('@/views/index.vue'),
     },
     {
-        path: '/codeSnippet',
-        name: 'codeSnippet',
-        component: () => import('@/views/codeSnippet/index.vue'),
+        path: '/code-snippet',
+        name: 'code-snippet',
+        component: () => import('@/views/code-snippet/index.vue'),
     },
     {
-        path: '/jsonToTable',
-        name: 'jsonToTable',
-        component: () => import('@/views/jsonToTable/index.vue'),
+        path: '/json-to-table',
+        name: 'json-to-table',
+        component: () => import('@/views/json-to-table/index.vue'),
     },
     {
-        path: '/reportManagement',
-        name: 'reportManagement',
-        component: () => import('@/views/reportManagement/index.vue'),
+        path: '/report-management',
+        name: 'report-management',
+        component: () => import('@/views/report-management/index.vue'),
     },
     {
-        path: '/pwdManagement',
-        name: 'pwdManagement',
-        component: () => import('@/views/pwdManagement/index.vue'),
+        path: '/pwd-management',
+        name: 'pwd-management',
+        component: () => import('@/views/pwd-management/index.vue'),
     },
 ];
 

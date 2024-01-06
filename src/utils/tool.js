@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
@@ -16,6 +17,33 @@ export const copyToClipboard = (text) => {
     document.body.removeChild(el); // 复制完成后移除元素
 }
 
+// 提示
 export const message = ElMessage
 
+// 确认
 export const messageBox = ElMessageBox
+
+// 通用查询方法
+export const useSearch = (api, form = {}) => {
+    const list = ref([])        // 列表数据
+    const loading = ref(false)  // 是否加载中
+    const total = ref(0)        // 数据总条数
+
+    // 查询
+    const doSearch = () => {
+        loading.value = true
+        api.query(form).then(res => {
+            list.value = res.data
+            total.value = res.total
+        }).finally(() => {
+            loading.value = false
+        })
+    }
+
+    return {
+        list,
+        loading,
+        total,
+        doSearch,
+    }
+}

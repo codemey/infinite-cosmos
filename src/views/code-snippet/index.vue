@@ -7,8 +7,8 @@
             <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
         </template>
         <template #main>
-            <div class="ic-card" v-for="(item,index) in data" :key="item">
-                <div class="snippet-header" :class="'a'+index">
+            <div class="ic-card" v-for="(item, index) in data" :key="item">
+                <div class="snippet-header" :class="'a' + index">
                     <el-affix :target="'body'" :offset="90">
                         <span title="编辑" v-if="!item.editable">
                             <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
@@ -27,7 +27,7 @@
                         </span>
                     </el-affix>
                 </div>
-                <div class="snippet-content" :class="item.collapse?'more-mask':''" v-if="!item.editable">
+                <div class="snippet-content" :class="item.collapse ? 'more-mask' : ''" v-if="!item.editable">
                     <icCodeHighlight :code="item.content"></icCodeHighlight>
                 </div>
                 <div class="snippet-content" v-else>
@@ -40,7 +40,8 @@
             </div>
         </template>
         <template #footer>
-            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
+            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background
+                layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
         </template>
     </icPage>
 </template>
@@ -50,6 +51,9 @@ import { ref, reactive, onMounted } from "vue"
 import api from "@/api/codeSnippet"
 import { copyToClipboard, message, messageBox } from '@/utils/tool'
 
+defineOptions({
+    name: 'code-snippet'
+})
 onMounted(() => {
     doSearch()
 })
@@ -130,6 +134,7 @@ const del = (item) => {
         background-color: var(--bg-color-1);
     }
 }
+
 .ic-card {
     white-space: pre-wrap;
     margin-bottom: 10px;
@@ -153,6 +158,7 @@ const del = (item) => {
         margin: 10px;
     }
 }
+
 .el-pagination {
     justify-content: flex-end;
 }
