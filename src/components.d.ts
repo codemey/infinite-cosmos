@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./components/icon/iconSearch copy.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -27,6 +28,7 @@ declare module 'vue' {
     IconDelete: typeof import('./components/icon/iconDelete.vue')['default']
     IconEdit: typeof import('./components/icon/iconEdit.vue')['default']
     IconExpand: typeof import('./components/icon/iconExpand.vue')['default']
+    IconExport: typeof import('./components/icon/iconExport.vue')['default']
     IconHome: typeof import('./components/icon/iconHome.vue')['default']
     IconSave: typeof import('./components/icon/iconSave.vue')['default']
     IconSearch: typeof import('./components/icon/iconSearch.vue')['default']

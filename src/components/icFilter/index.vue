@@ -2,7 +2,7 @@
 <template>
     <div class="search">
         <icon-search></icon-search>
-        <input type="text" placeholder="回车搜索" v-model="value" @keyup.enter="onEnter">
+        <input type="text" v-model="value" @keyup.enter="onEnter">
     </div>
 </template>
 
@@ -30,7 +30,7 @@ const onEnter = () => {
 <style lang="scss" scoped>
 .search {
     height: 30px;
-    width: 150px;
+    width: 30px;
     padding: 5px;
     background-color: var(--bg-color-2);
     border-radius: var(--border-radius-2);
@@ -40,10 +40,15 @@ const onEnter = () => {
     align-items: center;
 
     &:hover {
-        width: 250px;
+        width: 200px;
+    }
+
+    &:hover>input {
+        display: block;
     }
 
     input {
+        display: none;
         border: none;
         background: none;
         outline: none !important;

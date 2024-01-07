@@ -1,10 +1,10 @@
 <template>
     <icPage>
         <template #header>
-            <div class="add" @click="add">
+            <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
+            <div class="ic-button" @click="add">
                 <icon-add></icon-add>
             </div>
-            <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
         </template>
         <template #main>
             <el-table :data="list" border style="height: 100%;" v-loading="loading">
@@ -73,23 +73,4 @@ const handleDel = (id) => {
 }
 </script>
 
-<style lang="scss" scoped>
-.add {
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--bg-color-2);
-    border-radius: var(--border-radius-2);
-    margin: 0 10px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--bg-color-1);
-    }
-}
-
-.el-pagination {
-    justify-content: flex-end;
-}
-</style>
+<style lang="scss" scoped></style>

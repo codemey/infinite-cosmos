@@ -1,4 +1,5 @@
 @use 'bright.scss' as *;
+@use './element/cover.scss' as *;
 
 #app,
 body,
@@ -59,7 +60,7 @@ textarea {
         left: -3px;
         right: -3px;
         bottom: -3px;
-        border: 3px solid var(--theme-color-3);
+        border: 3px solid var(--bg-color-1);
         border-radius: 20px;
         animation: clippath 3s linear;
     }
@@ -114,4 +115,44 @@ textarea {
         color: var(--theme-color-1);
         z-index: 10;
     }
+}
+
+// 添加按钮
+.ic-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    background-color: var(--bg-color-2);
+    border-radius: var(--border-radius-2);
+    margin-left: 10px;
+    padding: 0 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--bg-color-1);
+    }
+}
+
+// 字体样式
+.title1{
+    font-size: 24px;
+    font-weight: 700;
+}
+.title2{
+    font-size: 22px;
+    font-weight: 700;
+}
+.title3{
+    font-size: 20px;
+}
+.content1{
+    font-size: 20px;
+    font-weight: 700;
+}
+.content2{
+    font-size: 18px;
+    font-weight: 700;
+}
+.content3{
+    font-size: 16px;
 }

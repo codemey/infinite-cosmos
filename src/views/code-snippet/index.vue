@@ -1,14 +1,14 @@
 <template>
     <icPage>
         <template #header>
-            <div class="add" @click="addCodeSnippet">
+            <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
+            <div class="ic-button" @click="add">
                 <icon-add></icon-add>
             </div>
-            <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
         </template>
         <template #main>
             <div class="ic-card" v-for="(item, index) in data" :key="item">
-                <div class="snippet-header" :class="'a' + index">
+                <div class="snippet-header">
                     <el-affix :target="'body'" :offset="90">
                         <span title="编辑" v-if="!item.editable">
                             <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
@@ -79,7 +79,7 @@ const doSearch = () => {
     })
 }
 //添加代码段
-const addCodeSnippet = () => {
+const add = () => {
     data.value.unshift({
         content: '',
         desc: '这是一段神秘代码',
@@ -120,21 +120,6 @@ const del = (item) => {
 </script>
 
 <style lang="scss" scoped>
-.add {
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--bg-color-2);
-    border-radius: var(--border-radius-2);
-    margin: 0 10px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--bg-color-1);
-    }
-}
-
 .ic-card {
     white-space: pre-wrap;
     margin-bottom: 10px;
@@ -157,9 +142,5 @@ const del = (item) => {
     .snippet-footer {
         margin: 10px;
     }
-}
-
-.el-pagination {
-    justify-content: flex-end;
 }
 </style>
