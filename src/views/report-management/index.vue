@@ -2,21 +2,28 @@
     <icPage>
         <template #header>
             <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
-            <div class="ic-button" @click="add">
-                分类维护
-            </div>
-            <div class="ic-button" @click="add">
-                导出月报
-            </div>
+
+            <!-- 分类维护 -->
+            <categoryMaintenance>
+                <div class="ic-button">
+                    分类维护
+                </div>
+            </categoryMaintenance>
+
+            <exportReport>
+                <div class="ic-button"> 导出月报 </div>
+            </exportReport>
+
             <div class="ic-button" @click="add">
                 <icon-add></icon-add>
             </div>
         </template>
         <template #main>
-            <div class="ic-card" v-for="item in list" :key="item.reportDate">
+            <div class="ic-card" v-for="(item,index) in list" :key="item.reportDate">
                 <div class="ic-header">
                     <div class="ic-header-left">
-                        <span class="title2">
+                        <el-date-picker v-if="item.editable" v-model="item.reportDate" type="date" value-format="YYYY-MM-DD" />
+                        <span v-else class="title2">
                             {{ item.reportDate }}
                         </span>
                     </div>
@@ -27,11 +34,11 @@
                         <span title="保存" v-else>
                             <icon-save class="hover-pointer" @click="save(item)"></icon-save>
                         </span>
-                        <span title="导出">
-                            <icon-export class="hover-pointer" @click="save(item)"></icon-export>
+                        <span title="复制">
+                            <icon-copy class="hover-pointer" @click="copy(item)"></icon-copy>
                         </span>
                         <span title="删除" style="fill: red;">
-                            <icon-delete class="hover-pointer" @click="del(item)"></icon-delete>
+                            <icon-delete class="hover-pointer" @click="del(item,index)"></icon-delete>
                         </span>
                     </div>
                 </div>
@@ -49,8 +56,7 @@
             </div>
         </template>
         <template #footer>
-            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background
-                layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
+            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
         </template>
     </icPage>
 </template>
@@ -58,12 +64,14 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/reportManagement"
-import { dateFormat, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
+import categoryMaintenance from './categoryMaintenance.vue'
+import exportReport from './exportReport.vue'
+import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
 //表单
 const form = reactive({
     dateFrom: '',
     dateTo: '',
-    keyword: "",
+    keyword: '',
     pageNo: 1,
     pageSize: 10,
 });
@@ -72,29 +80,53 @@ onMounted(() => {
     doSearch()
 })
 const add = () => {
-    list.value.unshift({
-        reportDate: dateFormat(new Date(), 'yyyy-MM-dd'),
-        data: [
-            { category: 'pc端', content: '今天干了什么1' },
-            { category: '用户端', content: '今天干了什么2' },
-            { category: '机器端', content: '今天干了什么3' },
-            { category: '企业微信', content: '今天干了什么4' },
-            { category: '看板', content: '今天干了什么5' },
-        ],
-        editable: true
-    })
+    const data = []
+    // 获取汇报分类缓存
+    const reportCategory = cache.get('reportCategory') || []
+    if (reportCategory.length === 0) {
+        message.error('请先维护汇报分类')
+    } else {
+        reportCategory.forEach(e => {
+            data.push({
+                category: e,
+                content: ''
+            })
+        })
+
+        list.value.unshift({
+            reportDate: dateFormat(new Date(), 'yyyy-MM-dd'),
+            data,
+            editable: true
+        })
+    }
 }
 const save = (item) => {
     api.save(item).then(res => {
         doSearch()
     })
 }
-const del = (item) => {
+const copy = (item) => {
+    const map = {}
+    item.data.forEach(e => {
+        if (e.content) {
+            map[e.category] = []
+            map[e.category].push(e.content)
+        }
+    })
+    const data = JSON.stringify(map, null, 2).replace(/["[\]{},]/g, '').replace(/\n  /g, '\n')
+    copyToClipboard(data)
+    message.success('复制成功')
+}
+const del = (item, index) => {
     messageBox.confirm('确认删除?').then(() => {
-        api.delete(item.id).then(res => {
-            message.success('删除成功')
-            doSearch()
-        })
+        if (item.id) {
+            api.delete(item.id).then(res => {
+                message.success('删除成功')
+                doSearch()
+            })
+        } else {
+            list.value.splice(index, 1)
+        }
     })
 }
 </script>
@@ -155,7 +187,8 @@ const del = (item) => {
                     height: 300px;
 
                     :deep(.el-textarea__inner:focus) {
-                        box-shadow: 0 0 2px 4px var(--el-input-focus-border-color) inset;
+                        box-shadow: 0 0 2px 4px
+                            var(--el-input-focus-border-color) inset;
                     }
 
                     :deep(textarea) {

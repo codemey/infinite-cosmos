@@ -4,10 +4,33 @@ import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-button.css';
 
+// 本地缓存
+export const cache = {
+    set: (table, settings) => {
+        const _set = JSON.stringify(settings)
+        return localStorage.setItem(table, _set);
+    },
+    get: (table) => {
+        let data = localStorage.getItem(table);
+        try {
+            data = JSON.parse(data)
+        } catch (err) {
+            return null
+        }
+        return data;
+    },
+    remove: (table) => {
+        return localStorage.removeItem(table);
+    },
+    clear: () => {
+        return localStorage.clear();
+    }
+}
+
 // 日期格式化 
 export const dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     date = new Date(date)
-    var o = {
+    const o = {
         "M+": date.getMonth() + 1,                 //月份
         "d+": date.getDate(),                    //日
         "h+": date.getHours(),                   //小时
@@ -19,7 +42,7 @@ export const dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
-    for (var k in o) {
+    for (let k in o) {
         if (new RegExp("(" + k + ")").test(fmt)) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         }
@@ -38,6 +61,28 @@ export const copyToClipboard = (text) => {
     el.select(); // 选择文本内容
     document.execCommand('copy'); // 执行复制操作
     document.body.removeChild(el); // 复制完成后移除元素
+}
+
+// 以txt格式导出
+export const exportTxtFile = (textContent, fileName) => {
+    // 创建一个Blob对象，将文本内容放入其中
+    const blob = new Blob([textContent], { type: "text/plain" });
+
+    // 创建一个临时的URL，指向该Blob对象
+    const url = URL.createObjectURL(blob);
+
+    // 创建一个隐藏的<a>元素，并设置下载属性
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+
+    // 将<a>元素添加到文档中并模拟点击进行下载
+    document.body.appendChild(a);
+    a.click();
+
+    // 下载完成后移除<a>元素和URL对象
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // 提示

@@ -8,6 +8,8 @@ export default {
 
     query: (data) => axios.post(`${prePath}/query`, data).then(res => res.data),
 
+    list: (data) => axios.post(`${prePath}/list`, data).then(res => res.data),
+
     delete: (id) => axios.delete(`${prePath}/${id}`).then(res => res.data),
 
     save: (data) => {
@@ -19,5 +21,4 @@ export default {
     },
 
     getById: (id) => axios.get(`${prePath}/${id}`).then(res => res.data),
-
 }

@@ -7,7 +7,7 @@
             </div>
         </template>
         <template #main>
-            <div class="ic-card" v-for="(item, index) in data" :key="item">
+            <div class="ic-card" v-for="item in data" :key="item">
                 <div class="snippet-header">
                     <el-affix :target="'body'" :offset="90">
                         <span title="编辑" v-if="!item.editable">
@@ -40,8 +40,7 @@
             </div>
         </template>
         <template #footer>
-            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background
-                layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
+            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
         </template>
     </icPage>
 </template>

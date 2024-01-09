@@ -3,6 +3,7 @@
     <div class="search">
         <icon-search></icon-search>
         <input type="text" v-model="value" @keyup.enter="onEnter">
+        <icon-clear v-if="value" @click="value=''"></icon-clear>
     </div>
 </template>
 
@@ -43,7 +44,7 @@ const onEnter = () => {
         width: 200px;
     }
 
-    &:hover>input {
+    &:hover > input {
         display: block;
     }
 
