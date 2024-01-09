@@ -3,7 +3,7 @@
         <template #reference>
             <slot></slot>
         </template>
-        <el-date-picker v-model="monthRange" value-format="YYYY-MM-DD" type="monthrange" range-separator="至" :teleported="false" />
+        <el-date-picker v-model="monthRange" value-format="YYYY-MM" type="monthrange" range-separator="至" :teleported="false" />
         <div style="text-align: right;padding: 10px 5px;">
             <el-button :disabled="!monthRange" @click="txtExport">txt导出</el-button>
             <el-button :disabled="!monthRange" @click="onCopyToClipboard">复制到剪切板</el-button>
@@ -14,14 +14,14 @@
 <script setup>
 import { ref } from 'vue'
 import api from "@/api/reportManagement"
-import { exportTxtFile, copyToClipboard, message } from '@/utils/tool'
+import { exportTxtFile, copyToClipboard, message, getLastDayByMonth } from '@/utils/tool'
 
 const monthRange = ref('')
 // 按月查询
 const getData = async () => {
     const query = {
-        dateFrom: monthRange.value[0],
-        dateTo: monthRange.value[1],
+        dateFrom: monthRange.value[0] + '-01',
+        dateTo: getLastDayByMonth(monthRange.value[1]),
     }
     const res = await api.list(query)
     // 返回结果格式转化

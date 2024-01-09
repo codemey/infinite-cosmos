@@ -19,12 +19,12 @@
             </div>
         </template>
         <template #main>
-            <div class="ic-card" v-for="(item,index) in list" :key="item.reportDate">
+            <div class="ic-card" v-for="(item, index) in list" :key="item.reportDate">
                 <div class="ic-header">
                     <div class="ic-header-left">
                         <el-date-picker v-if="item.editable" v-model="item.reportDate" type="date" value-format="YYYY-MM-DD" />
                         <span v-else class="title2">
-                            {{ item.reportDate }}
+                            {{ item.reportDate.slice(0, 10) }}
                         </span>
                     </div>
                     <div class="ic-header-right">
@@ -38,7 +38,7 @@
                             <icon-copy class="hover-pointer" @click="copy(item)"></icon-copy>
                         </span>
                         <span title="删除" style="fill: red;">
-                            <icon-delete class="hover-pointer" @click="del(item,index)"></icon-delete>
+                            <icon-delete class="hover-pointer" @click="del(item, index)"></icon-delete>
                         </span>
                     </div>
                 </div>
@@ -187,8 +187,7 @@ const del = (item, index) => {
                     height: 300px;
 
                     :deep(.el-textarea__inner:focus) {
-                        box-shadow: 0 0 2px 4px
-                            var(--el-input-focus-border-color) inset;
+                        box-shadow: 0 0 2px 4px var(--el-input-focus-border-color) inset;
                     }
 
                     :deep(textarea) {

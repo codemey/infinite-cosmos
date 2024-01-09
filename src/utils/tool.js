@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElNotification, ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-notification.css';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-button.css';
@@ -50,6 +51,19 @@ export const dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     return fmt;
 }
 
+//某月最后一天
+export const getLastDayByMonth = (monthDate) => {
+    // 创建一个表示下个月第一天的Date对象
+    var nextMonth = new Date(monthDate);
+    nextMonth.setMonth(nextMonth.getMonth() + 1); // 注意这里加1是因为月份从0开始计数
+    nextMonth.setDate(1);
+
+    // 将该Date对象设置为上个月的最后一天
+    nextMonth.setDate(nextMonth.getDate() - 1);
+
+    return nextMonth.toLocaleDateString().replace(/\//g, '-')
+}
+
 // 复制到剪切板
 export const copyToClipboard = (text) => {
     const el = document.createElement('textarea'); // 创建一个临时的 textarea 元素
@@ -84,6 +98,9 @@ export const exportTxtFile = (textContent, fileName) => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+// 提示
+export const notification = ElNotification
 
 // 提示
 export const message = ElMessage
