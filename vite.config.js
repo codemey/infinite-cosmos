@@ -21,6 +21,7 @@ export default defineConfig({
         alias: {
             '@': '/src',
         },
+        extensions: ['.js', '.vue'],
     },
     css: {
         preprocessorOptions: {

@@ -3,6 +3,11 @@
         <template #header>
             <icFilter v-model="form.keyword" @onEnter="doSearch"></icFilter>
 
+            <div class="ic-button">
+                <span>仅看月报</span>
+                <el-switch v-model="onlyViewMonth" @change="switchChange" />
+            </div>
+
             <!-- 分类维护 -->
             <categoryMaintenance>
                 <div class="ic-button">
@@ -22,10 +27,22 @@
             <div class="ic-card" v-for="(item, index) in list" :key="item.reportDate">
                 <div class="ic-header">
                     <div class="ic-header-left">
+
+                        <!-- 汇报类型(日报|月报) -->
+                        <el-select v-if="item.editable" v-model="item.type" style="width: 120px;margin-right: 10px;">
+                            <el-option v-for="item in reportTypeOptions" :key="item.key" :label="item.value" :value="item.key" />
+                        </el-select>
+                        <template v-else>
+                            <el-tag style="margin-right: 10px;" effect="dark" v-if="item.type==='day'">日报</el-tag>
+                            <el-tag style="margin-right: 10px;" type="info" effect="dark" v-else>月报</el-tag>
+                        </template>
+
+                        <!-- 汇报日期 -->
                         <el-date-picker v-if="item.editable" v-model="item.reportDate" type="date" value-format="YYYY-MM-DD" />
                         <span v-else class="title2">
                             {{ item.reportDate.slice(0, 10) }}
                         </span>
+
                     </div>
                     <div class="ic-header-right">
                         <span title="编辑" v-if="!item.editable">
@@ -64,9 +81,19 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/reportManagement"
-import categoryMaintenance from './categoryMaintenance.vue'
-import exportReport from './exportReport.vue'
+import categoryMaintenance from './categoryMaintenance'
+import exportReport from './exportReport'
 import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
+
+const reportTypeOptions = ref([
+    { key: 'day', value: '日报' },
+    { key: 'month', value: '月报' },
+])
+const onlyViewMonth = ref(false)
+const switchChange = () => {
+    form.type = onlyViewMonth.value ? 'month' : ''
+    doSearch()
+}
 //表单
 const form = reactive({
     dateFrom: '',
@@ -74,7 +101,8 @@ const form = reactive({
     keyword: '',
     pageNo: 1,
     pageSize: 10,
-});
+    type: ''   //day:'按天查看',month:'按月查看'
+})
 const { list, loading, total, doSearch } = useSearch(api, form)
 onMounted(() => {
     doSearch()
@@ -94,6 +122,7 @@ const add = () => {
         })
 
         list.value.unshift({
+            type: 'day',
             reportDate: dateFormat(new Date(), 'yyyy-MM-dd'),
             data,
             editable: true
@@ -145,6 +174,10 @@ const del = (item, index) => {
         svg {
             margin: 0 5px;
         }
+        .ic-header-left {
+            display: flex;
+            align-items: center;
+        }
     }
 
     .ic-content {
@@ -187,7 +220,8 @@ const del = (item, index) => {
                     height: 300px;
 
                     :deep(.el-textarea__inner:focus) {
-                        box-shadow: 0 0 2px 4px var(--el-input-focus-border-color) inset;
+                        box-shadow: 0 0 2px 4px
+                            var(--el-input-focus-border-color) inset;
                     }
 
                     :deep(textarea) {

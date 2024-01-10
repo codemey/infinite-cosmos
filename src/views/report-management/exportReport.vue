@@ -27,6 +27,8 @@ const getData = async () => {
     // 返回结果格式转化
     const map = {}
     res.forEach(e => {
+        // 排除月报
+        if (e.type === 'month') return
         e.data.forEach(e1 => {
             if (!map[e1.category]) {
                 map[e1.category] = []
