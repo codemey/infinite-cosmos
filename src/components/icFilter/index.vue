@@ -33,7 +33,7 @@ const onEnter = () => {
     height: 30px;
     width: 30px;
     padding: 5px;
-    background-color: var(--bg-color-2);
+    background-color: var(--el-bg-color);
     border-radius: var(--border-radius-2);
     transition: width 0.3s ease;
     overflow: hidden;

@@ -20,14 +20,14 @@ import { nextTick, ref } from 'vue'
 import { cache, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
 
 const inputValue = ref('')
-const categoryList = ref(cache.get('reportCategory') || [])
+const categoryList = ref(cache.get('report_category') || [])
 const inputVisible = ref(false)
 const InputRef = ref()
 
 const handleClose = (tag) => {
     categoryList.value.splice(categoryList.value.indexOf(tag), 1)
     // 缓存汇报分类
-    cache.set('reportCategory', categoryList.value)
+    cache.set('report_category', categoryList.value)
 }
 
 const showInput = () => {
@@ -41,7 +41,7 @@ const handleInputConfirm = () => {
     if (inputValue.value) {
         categoryList.value.push(inputValue.value)
         // 缓存汇报分类
-        cache.set('reportCategory', categoryList.value)
+        cache.set('report_category', categoryList.value)
     }
     inputVisible.value = false
     inputValue.value = ''

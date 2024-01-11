@@ -110,7 +110,7 @@ onMounted(() => {
 const add = () => {
     const data = []
     // 获取汇报分类缓存
-    const reportCategory = cache.get('reportCategory') || []
+    const reportCategory = cache.get('report_category') || []
     if (reportCategory.length === 0) {
         message.error('请先维护汇报分类')
     } else {
@@ -199,8 +199,8 @@ const del = (item, index) => {
                 height: 40px;
                 width: 100%;
                 border-radius: var(--border-radius-3) var(--border-radius-3) 0 0;
-                color: var(--text-color);
-                background-color: var(--theme-color-1);
+                color: var(--el-text-color-primary);
+                background-color: var(--el-color-primary);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -212,7 +212,7 @@ const del = (item, index) => {
                 height: 100%;
                 min-height: 100px;
                 max-height: 300px;
-                background-color: var(--bg-color-3);
+                background-color: var(--el-color-primary-light-9);
                 overflow: auto;
 
                 .el-textarea {

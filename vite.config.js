@@ -23,13 +23,13 @@ export default defineConfig({
         },
         extensions: ['.js', '.vue'],
     },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: `@use "@/style/element/index.scss" as *;`,
-            },
-        },
-    },
+    // css: {
+    //     preprocessorOptions: {
+    //         scss: {
+    //             additionalData: `@use "@/style/element/index.scss" as *;`,
+    //         },
+    //     },
+    // },
     server: {
         host: '0.0.0.0',
         port: 5100,

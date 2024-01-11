@@ -1,56 +1,39 @@
 <template>
     <el-config-provider :locale="zhCn">
-        <div class="home">
-            <div class="left-navbar">
-                <router-link class="left-nav-item" to="/">
-                    <icon-home class="hover-pointer"></icon-home>
-                </router-link>
-                <router-link class="left-nav-item" to="/">
-                    <icon-setting class="hover-pointer"></icon-setting>
-                </router-link>
-
-                <router-link class="left-nav-item" to="/">
-                    <icon-bbt class="hover-pointer"></icon-bbt>
-                </router-link>
-            </div>
-            <div class="right-essence">
-                <router-view> </router-view>
-            </div>
-        </div>
+        <router-view></router-view>
     </el-config-provider>
 </template>
 
 <script setup>
+import { useCssVar } from '@vueuse/core'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-const imgUrl = 'url(img/ic.jpg)'
+import colorTool from '@/utils/color'
+import { cache } from '@/utils/tool'
+import config from '@/config'
+
+//设置颜色变量
+const theme_color = cache.get('theme_color') || config.theme_color
+const text_color = cache.get('text_color') || config.text_color
+if (theme_color) {
+    // 渐变色
+    const linearColor = useCssVar('--bg-color-linear', null)
+    linearColor.value = `linear-gradient(to top left, #fff, ${theme_color})`
+
+    // 文字颜色
+    const textColor = useCssVar('--el-text-color-primary', null)
+    textColor.value = text_color
+
+    //主题色
+    document.documentElement.style.setProperty('--el-color-primary', theme_color);
+    for (let i = 1; i <= 9; i++) {
+        document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(theme_color, i / 10));
+    }
+    for (let i = 1; i <= 9; i++) {
+        document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(theme_color, i / 10));
+    }
+}
 </script>
 
 <style lang="scss">
 @use "@/style/index.scss" as *;
-.home {
-    display: flex;
-    background-image: v-bind("imgUrl");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    .left-navbar {
-        position: fixed;
-        width: 50px;
-        left: 30px;
-        bottom: 50vh;
-        display: flex;
-        flex-wrap: wrap;
-        background: var(--bg-color-linear);
-        border-radius: var(--border-radius-3);
-        .left-nav-item {
-            width: 100%;
-            text-align: center;
-            margin: 5px;
-        }
-    }
-    .right-essence {
-        margin-left: 100px;
-        width: calc(100% - 100px);
-    }
-}
 </style>
