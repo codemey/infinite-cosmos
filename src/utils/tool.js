@@ -5,7 +5,9 @@ import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-button.css';
 
-// 本地缓存
+/**
+ * 本地缓存
+ */
 export const cache = {
     set: (table, settings) => {
         const _set = JSON.stringify(settings)
@@ -28,7 +30,12 @@ export const cache = {
     }
 }
 
-// 日期格式化 
+/**
+ * 日期格式化
+ * @param {日期} date 
+ * @param {格式} fmt 
+ * @returns 格式化后的日期
+ */
 export const dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     date = new Date(date)
     const o = {
@@ -51,7 +58,11 @@ export const dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     return fmt;
 }
 
-//某月最后一天
+/**
+ * 某月最后一天
+ * @param {年-月} monthDate 
+ * @returns 年月日
+ */
 export const getLastDayByMonth = (monthDate) => {
     // 创建一个表示下个月第一天的Date对象
     var nextMonth = new Date(monthDate);
@@ -64,7 +75,10 @@ export const getLastDayByMonth = (monthDate) => {
     return nextMonth.toLocaleDateString().replace(/\//g, '-')
 }
 
-// 复制到剪切板
+/**
+ * 复制到剪切板
+ * @param {文本内容} text 
+ */
 export const copyToClipboard = (text) => {
     const el = document.createElement('textarea'); // 创建一个临时的 textarea 元素
     el.value = text; // 设置文本内容
@@ -77,7 +91,11 @@ export const copyToClipboard = (text) => {
     document.body.removeChild(el); // 复制完成后移除元素
 }
 
-// 以txt格式导出
+/**
+ * 以txt格式导出
+ * @param {文本内容} textContent 
+ * @param {文件名} fileName 
+ */
 export const exportTxtFile = (textContent, fileName) => {
     // 创建一个Blob对象，将文本内容放入其中
     const blob = new Blob([textContent], { type: "text/plain" });
@@ -108,7 +126,12 @@ export const message = ElMessage
 // 确认
 export const messageBox = ElMessageBox
 
-// 通用查询方法
+/**
+ * 通用查询方法
+ * @param {接口方法} api 
+ * @param {表单对象} form 
+ * @returns 查询方法与结果等的对象
+ */
 export const useSearch = (api, form = {}) => {
     const list = ref([])        // 列表数据
     const loading = ref(false)  // 是否加载中
@@ -131,4 +154,30 @@ export const useSearch = (api, form = {}) => {
         total,
         doSearch,
     }
+}
+
+/**
+ * 电梯滚动
+ * Math.log对数函数实现平滑滚动
+ * @param {目标元素选择器} target 
+ * @param {滚动方向} direction 
+ */
+export const elevator = (target, direction = 'down') => {
+    const el = document.querySelector(target)
+    let step = 0
+    let count = 0
+    const initScrollTop = el.scrollTop  //初始滚动位置
+    const totalScrollHeight = el.scrollHeight - initScrollTop - el.clientHeight //总滚动高度
+    const timer = setInterval(() => {
+        step = 50 * (Math.log((count / 50) + 1) / Math.log(2))
+        if (direction === 'down') { //向下滚动
+            el.scrollTop = initScrollTop + totalScrollHeight * (Math.log((step / 50) + 1) / Math.log(2))
+        } else { //向上滚动
+            el.scrollTop = initScrollTop * (1 - Math.log((step / 50) + 1) / Math.log(2))
+        }
+        count += 1
+        if (count > 50) {
+            clearInterval(timer)
+        }
+    }, 10)
 }

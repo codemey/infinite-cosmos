@@ -48,7 +48,7 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/codeSnippet"
-import { copyToClipboard, message, messageBox } from '@/utils/tool'
+import { copyToClipboard, message, messageBox, elevator } from '@/utils/tool'
 
 defineOptions({
     name: 'code-snippet'
@@ -56,7 +56,7 @@ defineOptions({
 onMounted(() => {
     doSearch()
 })
-//表单
+// 表单
 const form = reactive({
     keyword: "",
     pageNo: 1,
@@ -77,15 +77,17 @@ const doSearch = () => {
         total.value = res.total
     })
 }
-//添加代码段
+// 添加代码段
 const add = () => {
     data.value.unshift({
         content: '',
         desc: '这是一段神秘代码',
         editable: true
     })
+    // 电梯滚动到顶部
+    elevator('.main', 'up')
 }
-//保存
+// 保存
 const save = (item) => {
     const queryData = {
         id: item.id,
@@ -97,17 +99,17 @@ const save = (item) => {
         doSearch()
     })
 }
-//复制
+// 复制
 const copy = (item) => {
     copyToClipboard(item.content)
     message.success('复制成功')
 }
-//展开
+// 展开
 const expand = (item) => {
     if (item.collapse === undefined) return
     item.collapse = !item.collapse
 }
-//删除
+// 删除
 const del = (item) => {
     messageBox.confirm('确认删除?').then(() => {
         api.delete(item).then(res => {
