@@ -83,7 +83,7 @@ import { ref, reactive, onMounted } from "vue"
 import api from "@/api/reportManagement"
 import categoryMaintenance from './categoryMaintenance'
 import exportReport from './exportReport'
-import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
+import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch, elevator } from '@/utils/tool'
 
 const reportTypeOptions = ref([
     { key: 'day', value: '日报' },
@@ -127,6 +127,8 @@ const add = () => {
             data,
             editable: true
         })
+
+        elevator('.main', 'up')
     }
 }
 const save = (item) => {

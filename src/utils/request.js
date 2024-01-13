@@ -58,7 +58,7 @@ var http = {
                 params: params,
                 ...config
             }).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             })
@@ -78,7 +78,7 @@ var http = {
                 data: data,
                 ...config
             }).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             })
@@ -98,7 +98,7 @@ var http = {
                 data: data,
                 ...config
             }).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             })
@@ -118,7 +118,7 @@ var http = {
                 data: data,
                 ...config
             }).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             })
@@ -138,7 +138,7 @@ var http = {
                 data: data,
                 ...config
             }).then((response) => {
-                resolve(response);
+                resolve(response.data);
             }).catch((error) => {
                 reject(error);
             })

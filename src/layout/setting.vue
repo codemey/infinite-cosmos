@@ -8,6 +8,9 @@
                 <el-color-picker v-model="textColorPrimary" :predefine="colorList" @change="textColorChange" />
             </el-form-item>
             <el-divider></el-divider>
+            <el-form-item label="背景图片">
+                <icUpload></icUpload>
+            </el-form-item>
         </el-form>
     </el-drawer>
 </template>

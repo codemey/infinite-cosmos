@@ -1,9 +1,10 @@
 import { ref } from 'vue'
-import { ElNotification, ElMessage, ElMessageBox } from 'element-plus'
+import { ElNotification, ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import 'element-plus/theme-chalk/el-notification.css';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-button.css';
+import 'element-plus/theme-chalk/el-loading.css';
 
 /**
  * 本地缓存
@@ -138,13 +139,20 @@ export const useSearch = (api, form = {}) => {
     const total = ref(0)        // 数据总条数
 
     // 查询
-    const doSearch = () => {
+    const doSearch = (preprocessing) => {
         loading.value = true
-        api.query(form).then(res => {
-            list.value = res.data
-            total.value = res.total
+        const loadingInstance = ElLoading.service({ text: '加载中' })
+        return api.query(form).then(res => {
+            // 返回值预处理
+            if (typeof preprocessing === 'function') {
+                preprocessing(res)
+            } else {
+                list.value = res.records
+                total.value = res.total
+            }
         }).finally(() => {
             loading.value = false
+            loadingInstance.close()
         })
     }
 

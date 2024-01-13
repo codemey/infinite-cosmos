@@ -17,7 +17,7 @@
 
 <script setup>
 import { nextTick, ref } from 'vue'
-import { cache, copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
+import { cache } from '@/utils/tool'
 
 const inputValue = ref('')
 const categoryList = ref(cache.get('report_category') || [])

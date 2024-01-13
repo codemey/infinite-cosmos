@@ -7,7 +7,7 @@
             </div>
         </template>
         <template #main>
-            <div class="ic-card" v-for="item in data" :key="item">
+            <div class="ic-card" v-for="item in list" :key="item">
                 <div class="snippet-header">
                     <el-affix :target="'body'" :offset="90">
                         <span title="编辑" v-if="!item.editable">
@@ -48,13 +48,13 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/codeSnippet"
-import { copyToClipboard, message, messageBox, elevator } from '@/utils/tool'
+import { copyToClipboard, message, messageBox, elevator, useSearch } from '@/utils/tool'
 
 defineOptions({
     name: 'code-snippet'
 })
 onMounted(() => {
-    doSearch()
+    DoSearch()
 })
 // 表单
 const form = reactive({
@@ -62,20 +62,30 @@ const form = reactive({
     pageNo: 1,
     pageSize: 10,
 });
+const { list, loading, total, doSearch } = useSearch(api, form)
 const data = ref([])
-const total = ref(0)
-const doSearch = () => {
-    api.query(form).then(res => {
-        res.data.forEach(e => {
+const DoSearch = () => {
+    doSearch(res => {
+        res.records.forEach(e => {
             const pattern = /\n/g
             // 内容超过23行进行折叠
             if (e.content.match(pattern)?.length > 23) {
                 e.collapse = true
             }
         })
-        data.value = res.data
-        total.value = res.total
+        list.value = res.records
     })
+    // api.query(form).then(res => {
+    //     res.data.forEach(e => {
+    //         const pattern = /\n/g
+    //         // 内容超过23行进行折叠
+    //         if (e.content.match(pattern)?.length > 23) {
+    //             e.collapse = true
+    //         }
+    //     })
+    //     data.value = res.data
+    //     total.value = res.total
+    // })
 }
 // 添加代码段
 const add = () => {

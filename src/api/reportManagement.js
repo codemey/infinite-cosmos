@@ -1,7 +1,5 @@
 import http from "@/utils/request"
-// import axios from 'axios'
 const prePath = '/report-management'
-// axios.defaults.baseURL = '/api'
 
 export default {
 

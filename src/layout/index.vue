@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" :style="`background-image: ${imgUrl}`">
         <div class="left-navbar">
             <router-link class="left-nav-item" to="/">
                 <icon-home class="hover-pointer"></icon-home>
@@ -30,7 +30,7 @@ const openSetting = () => {
 <style lang="scss" scoped>
 .home {
     display: flex;
-    background-image: v-bind("imgUrl");
+    // background-image: v-bind("imgUrl");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
