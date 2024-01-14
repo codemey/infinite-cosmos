@@ -21,18 +21,22 @@
     height: 100%;
     padding: 10px;
     padding-right: 150px;
+
     .header {
         display: flex;
         justify-content: flex-end;
-        padding: 10px 0;
+        padding: 10px;
     }
+
     .main {
         overflow: auto;
         height: calc(100vh - 150px);
         border-radius: var(--border-radius-3);
-        margin: 10px 0;
+        padding: 10px;
     }
+
     .footer {
+        padding: 10px;
     }
 }
 </style>

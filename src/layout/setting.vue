@@ -9,7 +9,7 @@
             </el-form-item>
             <el-divider></el-divider>
             <el-form-item label="背景图片">
-                <icUpload></icUpload>
+                <icUpload v-model="backgroundImage" :limit="1"></icUpload>
             </el-form-item>
         </el-form>
     </el-drawer>
@@ -61,8 +61,11 @@ const textColorChange = (color) => {
         textColor.value = color
     }
 }
+
+// 设置背景图片
+const backgroundImage = ref('api/img/1705193834382.jpg')
+// TODO:接口拿到setting页面的数据，给backgroundImage赋值，登录页面？
 defineExpose({ open })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

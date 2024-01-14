@@ -52,10 +52,11 @@ textarea {
 // 卡片
 .ic-card {
     padding: 20px;
+    font-size: 16px;
     color: var(--el-text-color-primary);
     background: var(--el-bg-color);
     border-radius: var(--border-radius-3);
-    font-size: 16px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 // border动画
