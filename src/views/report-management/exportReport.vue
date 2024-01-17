@@ -63,7 +63,6 @@ const onCopyToClipboard = async () => {
     } else {
         // 调用复制函数
         copyToClipboard(reportData)
-        message.success('复制成功')
     }
 }
 </script>

@@ -10,8 +10,18 @@
             <el-table :data="list" border style="height: 100%;" v-loading="loading">
                 <el-table-column v-for="col in columns" :key="col.prop" :prop="col.prop" :label="col.label">
                     <template #default="{ row }">
+                        <div v-if="col.prop === 'account'">
+                            <el-tag round class="tag" @click="copyToClipboard(row.account)">
+                                {{ row.account }}
+                            </el-tag>
+                        </div>
+                        <div v-if="col.prop === 'pwd'">
+                            <el-tag type="info" round class="tag" @click="copyToClipboard(row.pwd)">
+                                {{ row.pwd }}
+                            </el-tag>
+                        </div>
                         <div v-if="col.prop === 'website'">
-                            <a :href="'http://' + row.website" target="_blank">{{ row.website }}</a>
+                            <el-link :href="'http://' + row.website" target="_blank">{{ row.website }}</el-link>
                         </div>
                     </template>
                 </el-table-column>
@@ -24,8 +34,7 @@
             </el-table>
         </template>
         <template #footer>
-            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background
-                layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
+            <el-pagination v-model:page-size="form.pageSize" v-model:current-page="form.pageNo" background layout="total, prev, pager, next" :total="total" @current-change="doSearch" />
         </template>
     </icPage>
 
@@ -73,4 +82,8 @@ const handleDel = (id) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tag:hover {
+    cursor: pointer;
+}
+</style>

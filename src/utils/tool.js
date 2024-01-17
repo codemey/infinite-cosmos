@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { ElNotification, ElMessage, ElMessageBox, ElLoading } from 'element-plus'
+import { ElNotification, ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/theme-chalk/el-notification.css';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
@@ -77,6 +77,17 @@ export const getLastDayByMonth = (monthDate) => {
 }
 
 /**
+ * 数字转周几
+ * @param {日期} day 
+ * @returns 周几
+ */
+export const convertToChineseWeek = (day) => {
+    const dayOfWeek = new Date(day).getDay()
+    const week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    return week[dayOfWeek]
+}
+
+/**
  * 复制到剪切板
  * @param {文本内容} text 
  */
@@ -90,6 +101,7 @@ export const copyToClipboard = (text) => {
     el.select(); // 选择文本内容
     document.execCommand('copy'); // 执行复制操作
     document.body.removeChild(el); // 复制完成后移除元素
+    message.success('复制成功')
 }
 
 /**
@@ -141,7 +153,6 @@ export const useSearch = (api, form = {}) => {
     // 查询
     const doSearch = (preprocessing) => {
         loading.value = true
-        const loadingInstance = ElLoading.service({ text: '加载中' })
         return api.query(form).then(res => {
             // 返回值预处理
             if (typeof preprocessing === 'function') {
@@ -152,7 +163,6 @@ export const useSearch = (api, form = {}) => {
             }
         }).finally(() => {
             loading.value = false
-            loadingInstance.close()
         })
     }
 

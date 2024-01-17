@@ -17,7 +17,7 @@
                             <icon-save class="hover-pointer" @click="save(item)"></icon-save>
                         </span>
                         <span title="复制代码">
-                            <icon-copy class="hover-pointer" @click="copy(item)"></icon-copy>
+                            <icon-copy class="hover-pointer" @click="copyToClipboard(item.content)"></icon-copy>
                         </span>
                         <span title="展开">
                             <icon-expand class="hover-pointer" @click="expand(item)"></icon-expand>
@@ -108,11 +108,6 @@ const save = (item) => {
         item.editable = !item.editable
         doSearch()
     })
-}
-// 复制
-const copy = (item) => {
-    copyToClipboard(item.content)
-    message.success('复制成功')
 }
 // 展开
 const expand = (item) => {

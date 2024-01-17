@@ -39,9 +39,10 @@
 
                         <!-- 汇报日期 -->
                         <el-date-picker v-if="item.editable" v-model="item.reportDate" type="date" value-format="YYYY-MM-DD" />
-                        <span v-else class="title2">
-                            {{ item.reportDate.slice(0, 10) }}
-                        </span>
+                        <div v-else class="title2" style="display: flex;">
+                            <div style="width: 140px;">{{ item.reportDate.slice(0, 10) }}</div>
+                            <span>{{ convertToChineseWeek(item.reportDate) }}</span>
+                        </div>
 
                     </div>
                     <div class="ic-header-right">
@@ -83,7 +84,7 @@ import { ref, reactive, onMounted } from "vue"
 import api from "@/api/reportManagement"
 import categoryMaintenance from './categoryMaintenance'
 import exportReport from './exportReport'
-import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch, elevator } from '@/utils/tool'
+import { cache, dateFormat, copyToClipboard, message, messageBox, useSearch, elevator, convertToChineseWeek } from '@/utils/tool'
 
 const reportTypeOptions = ref([
     { key: 'day', value: '日报' },
@@ -146,7 +147,6 @@ const copy = (item) => {
     })
     const data = JSON.stringify(map, null, 2).replace(/["[\]{},]/g, '').replace(/\n  /g, '\n')
     copyToClipboard(data)
-    message.success('复制成功')
 }
 const del = (item, index) => {
     messageBox.confirm('确认删除?').then(() => {

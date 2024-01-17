@@ -70,7 +70,6 @@ const generate = () => {
 // 复制
 const copy = () => {
     copyToClipboard(result.value)
-    message.success('复制成功')
 }
 // 重置
 const resetValue = () => {

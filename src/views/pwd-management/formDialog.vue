@@ -1,10 +1,10 @@
 <template>
     <el-dialog :title="title" v-model="dialogVisible" width="600px">
-        <el-form style="margin:0 20px;">
-            <el-form-item label="账号">
+        <el-form style="margin:0 20px;" label-width="60px">
+            <el-form-item label="账号" required>
                 <el-input v-model="formData.account" clearable></el-input>
             </el-form-item>
-            <el-form-item label="密码">
+            <el-form-item label="密码" required>
                 <el-input v-model="formData.pwd" clearable></el-input>
             </el-form-item>
             <el-form-item label="网站">
