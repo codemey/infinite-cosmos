@@ -30,6 +30,7 @@ const openSetting = () => {
 <style lang="scss" scoped>
 .home {
     display: flex;
+    background: var(--bg-color-linear);
     // background-image: v-bind("imgUrl");
     background-repeat: no-repeat;
     background-size: cover;

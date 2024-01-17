@@ -63,7 +63,6 @@ const form = reactive({
     pageSize: 10,
 });
 const { list, loading, total, doSearch } = useSearch(api, form)
-const data = ref([])
 const DoSearch = () => {
     doSearch(res => {
         res.records.forEach(e => {
@@ -75,21 +74,10 @@ const DoSearch = () => {
         })
         list.value = res.records
     })
-    // api.query(form).then(res => {
-    //     res.data.forEach(e => {
-    //         const pattern = /\n/g
-    //         // 内容超过23行进行折叠
-    //         if (e.content.match(pattern)?.length > 23) {
-    //             e.collapse = true
-    //         }
-    //     })
-    //     data.value = res.data
-    //     total.value = res.total
-    // })
 }
 // 添加代码段
 const add = () => {
-    data.value.unshift({
+    list.value.unshift({
         content: '',
         desc: '这是一段神秘代码',
         editable: true
