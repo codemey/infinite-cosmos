@@ -67,7 +67,7 @@ const clickLangFromItem = (val) => {
 // 语言互换
 const handleSwitch = () => {
     if (from.value === 'auto') return
-    
+
     const _from = from.value
     from.value = to.value
     to.value = _from
@@ -141,7 +141,17 @@ const toKebabCase = () => {
                 margin: 0 10px;
             }
             .el-textarea {
+                font-size: 16px;
                 height: calc(100vh - 172px);
+
+                :deep(.el-textarea__inner:focus) {
+                    box-shadow: 0 0 2px 4px var(--el-input-focus-border-color)
+                        inset;
+                }
+
+                :deep(textarea) {
+                    border-radius: 0;
+                }
             }
         }
     }
