@@ -66,6 +66,8 @@ const clickLangFromItem = (val) => {
 }
 // 语言互换
 const handleSwitch = () => {
+    if (from.value === 'auto') return
+    
     const _from = from.value
     from.value = to.value
     to.value = _from
