@@ -13,6 +13,9 @@
         <div class="ic-card ic-border-animation" @click="go('/pwd-management')">
             <h2>密码管理</h2>
         </div>
+        <div class="ic-card ic-border-animation" @click="go('/translate')">
+            <h2>翻译神器</h2>
+        </div>
     </div>
 </template>
 

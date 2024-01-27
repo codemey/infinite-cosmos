@@ -32,6 +32,11 @@ const routes = [
                 name: 'pwd-management',
                 component: () => import('@/views/pwd-management/index.vue'),
             },
+            {
+                path: '/translate',
+                name: 'translate',
+                component: () => import('@/views/translate/index.vue'),
+            },
         ]
     },
 ];

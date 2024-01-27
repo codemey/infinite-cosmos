@@ -1,11 +1,9 @@
 <template>
-    <el-upload :class="show ? '' : 'custom-upload-hide'" v-bind="$attrs" list-type="picture-card"
-        v-model:file-list="fileList" action="api/upload/img">
+    <el-upload :class="show ? '' : 'custom-upload-hide'" v-bind="$attrs" list-type="picture-card" v-model:file-list="fileList" action="api/upload/img">
         <iconAdd></iconAdd>
         <template #file="{ file }">
             <div class="img-action">
-                <el-image :src="file.url" fit="cover" :preview-src-list="[file.url]" hide-on-click-modal
-                    style="height:100%;width:100%;cursor:pointer;" />
+                <el-image :src="file.url" fit="cover" :preview-src-list="[file.url]" hide-on-click-modal style="height:100%;width:100%;cursor:pointer;" />
                 <span class="hover-pointer delete" @click="handleRemove(file)" style="right:3px;top:3px;position:absolute;">
                     <iconDelete style="fill:#fff;background:red;border-radius:5px;"></iconDelete>
                 </span>
@@ -65,7 +63,7 @@ const handleRemove = (file) => {
         display: none;
     }
 
-    &:hover>.delete {
+    &:hover > .delete {
         display: block;
     }
 }
