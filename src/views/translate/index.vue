@@ -14,7 +14,7 @@
             </div>
 
             <div class="item">
-                <el-input class="content-input" v-model="content" @keydown.prevent.enter="translate" maxlength="5000" placeholder="输入文字按回车翻译" show-word-limit clearable type="textarea" />
+                <el-input class="content-input" v-model="content" @keydown.enter="translate" maxlength="5000" placeholder="输入文字按Enter翻译，Shift+Enter换行" show-word-limit clearable type="textarea" />
             </div>
 
         </div>
@@ -76,7 +76,12 @@ const handleSwitch = () => {
 const translate = (event) => {
     // 排除输入法回车
     if (event.isComposing) return
-    
+
+    // shift+Enter时换行
+    if (event.shiftKey) return
+
+    event.preventDefault()
+
     if (!content.value) {
         message.error('请先输入内容!')
         return
