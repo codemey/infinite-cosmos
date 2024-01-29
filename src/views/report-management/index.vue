@@ -16,7 +16,7 @@
             </categoryMaintenance>
 
             <exportReport>
-                <div class="ic-button"> 导出月报 </div>
+                <div class="ic-button">导出月报</div>
             </exportReport>
 
             <div class="ic-button" @click="add">
@@ -186,7 +186,6 @@ const del = (item, index) => {
         border-radius: var(--border-radius-2);
         margin: 10px 0;
         display: grid;
-        // grid-auto-flow: column;
         grid-template-columns: repeat(auto-fit, minmax(calc(20% - 10px), 1fr));
         gap: 10px;
 

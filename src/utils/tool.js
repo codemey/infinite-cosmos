@@ -159,8 +159,8 @@ export const useSearch = (api, form = {}) => {
                 preprocessing(res)
             } else {
                 list.value = res.records
-                total.value = res.total
             }
+            total.value = res.total
         }).finally(() => {
             loading.value = false
         })

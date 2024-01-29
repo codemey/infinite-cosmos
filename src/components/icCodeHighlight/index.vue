@@ -28,5 +28,7 @@ const props = defineProps(['code', 'height'])
 :deep(code) {
     height: v-bind(height);
     overflow: auto;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 </style>

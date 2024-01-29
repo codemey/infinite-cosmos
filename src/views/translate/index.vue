@@ -73,7 +73,10 @@ const handleSwitch = () => {
     to.value = _from
 }
 // 翻译
-const translate = () => {
+const translate = (event) => {
+    // 排除输入法回车
+    if (event.isComposing) return
+    
     if (!content.value) {
         message.error('请先输入内容!')
         return

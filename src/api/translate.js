@@ -8,18 +8,20 @@ const key = '20hVcP_AoJQS3AA6IMof'
 
 export default {
     // 通用翻译
-    normalTranslate: (q, from = 'en', to = 'zh') => {
+    normalTranslate: (_q, from = 'en', to = 'zh') => {
+        const q = encodeURIComponent(_q)
         const salt = new Date().getTime()
-        const sign = MD5(appid + q + salt + key)
+        const sign = MD5(appid + _q + salt + key)
 
         return http.jsonp('https://fanyi-api.baidu.com/api/trans/vip/translate', { q, appid, salt, from, to, sign }).then(res => {
-            return res.trans_result[0].dst
+            return res.trans_result.map(e => e.dst).join('\n')
         })
     },
     // 语种检测 
-    langdetect: (q) => {
+    langdetect: (_q) => {
+        const q = encodeURIComponent(_q)
         const salt = new Date().getTime()
-        const sign = MD5(appid + q + salt + key)
+        const sign = MD5(appid + _q + salt + key)
 
         return http.jsonp('https://fanyi-api.baidu.com/api/trans/vip/language', { q, appid, salt, sign }).then(res => {
             return res.data.src
