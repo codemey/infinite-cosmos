@@ -62,7 +62,7 @@ const onCopyToClipboard = async () => {
         message.error('暂无数据,请重新选择!')
     } else {
         // 调用复制函数
-        copyToClipboard(reportData)
+        copyToClipboard(reportData.trim())
     }
 }
 </script>

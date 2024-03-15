@@ -145,7 +145,7 @@ const copy = (item) => {
             map[e.category].push(e.content)
         }
     })
-    const data = JSON.stringify(map, null, 2).replace(/["[\]{},]/g, '').replace(/\n  /g, '\n')
+    const data = JSON.stringify(map, null, 2).replace(/["[\]{},]/g, '').replace(/\n  /g, '\n').trim()
     copyToClipboard(data)
 }
 const del = (item, index) => {
