@@ -1,9 +1,10 @@
 // 百度通用翻译
 import http from "@/utils/request"
 import MD5 from "@/utils/md5"
+import config from "@/config"
 
-const appid = '20240126001951543'
-const key = '20hVcP_AoJQS3AA6IMof'
+const appid = config.baidu_translate_config.appid
+const key = config.baidu_translate_config.key
 // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
 
 export default {

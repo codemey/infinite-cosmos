@@ -16,6 +16,9 @@
         <div class="ic-card ic-border-animation" @click="go('/translate')">
             <h2>翻译神器</h2>
         </div>
+        <div class="ic-card ic-border-animation" @click="go('/aliyun')">
+            <h2>阿里云盘</h2>
+        </div>
     </div>
 </template>
 

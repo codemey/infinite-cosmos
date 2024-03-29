@@ -2,12 +2,15 @@ import axios from 'axios';
 // import sysConfig from "@/config";
 import { notification } from '@/utils/tool';
 
-axios.defaults.baseURL = '/api'
+const axios_common = axios.create({
+    baseURL: '/api'
+});
+axios_common.defaults.baseURL = '/api'
 
-axios.defaults.timeout = 10000
+axios_common.defaults.timeout = 10000
 
 // HTTP request 拦截器
-axios.interceptors.request.use(
+axios_common.interceptors.request.use(
     (config) => {
         // let token = tool.cookie.get("TOKEN");
         // if(token){
@@ -29,7 +32,7 @@ axios.interceptors.request.use(
 let MessageBox_401_show = false
 
 // HTTP response 拦截器
-axios.interceptors.response.use(
+axios_common.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -52,7 +55,7 @@ var http = {
      */
     get: function (url, params = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            axios_common({
                 method: 'get',
                 url: url,
                 params: params,
@@ -72,7 +75,7 @@ var http = {
      */
     post: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            axios_common({
                 method: 'post',
                 url: url,
                 data: data,
@@ -92,7 +95,7 @@ var http = {
      */
     put: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            axios_common({
                 method: 'put',
                 url: url,
                 data: data,
@@ -112,7 +115,7 @@ var http = {
      */
     patch: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            axios_common({
                 method: 'patch',
                 url: url,
                 data: data,
@@ -132,7 +135,7 @@ var http = {
      */
     delete: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            axios_common({
                 method: 'delete',
                 url: url,
                 data: data,

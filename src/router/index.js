@@ -37,6 +37,11 @@ const routes = [
                 name: 'translate',
                 component: () => import('@/views/translate/index.vue'),
             },
+            {
+                path: '/aliyun',
+                name: 'aliyun',
+                component: () => import('@/views/aliyun/index.vue'),
+            },
         ]
     },
 ];
