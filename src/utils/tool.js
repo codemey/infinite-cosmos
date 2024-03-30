@@ -199,3 +199,15 @@ export const elevator = (target, direction = 'down') => {
         }
     }, 10)
 }
+
+/**
+ * 字节大小转换为 KB、MB 和 GB
+ * @param {字节大小} bytes
+ */
+export const formatBytes = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}

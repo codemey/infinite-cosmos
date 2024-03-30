@@ -28,7 +28,6 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
-    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     IcCodeEditor: typeof import('./components/icCodeEditor/index.vue')['default']
     IcCodeHighlight: typeof import('./components/icCodeHighlight/index.vue')['default']

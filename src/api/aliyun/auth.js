@@ -1,5 +1,5 @@
 import config from "@/config"
-import http from "@/utils/request"
+import http from "@/utils/request_aliyun"
 const prePath = '/oauth'
 
 export default {

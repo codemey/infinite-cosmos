@@ -1,20 +1,21 @@
 import axios from 'axios';
 // import sysConfig from "@/config";
 import { notification } from '@/utils/tool';
+import { cache } from '@/utils/tool'
 
-const axios_common = axios.create({
-    baseURL: '/api'
+const axios_aliyun = axios.create({
+    baseURL: '/api-aliyun'
 });
 
-axios_common.defaults.timeout = 10000
+axios_aliyun.defaults.timeout = 10000
 
 // HTTP request 拦截器
-axios_common.interceptors.request.use(
+axios_aliyun.interceptors.request.use(
     (config) => {
-        // let token = tool.cookie.get("TOKEN");
-        // if(token){
-        // 	config.headers[sysConfig.TOKEN_NAME] = sysConfig.TOKEN_PREFIX + token
-        // }
+        const aliyun_token = cache.get("aliyun_token")
+        if (aliyun_token) {
+            config.headers['Authorization'] = aliyun_token.token_type + ' ' + aliyun_token.access_token
+        }
         // if(!sysConfig.REQUEST_CACHE && config.method == 'get'){
         // 	config.params = config.params || {};
         // 	config.params['_'] = new Date().getTime();
@@ -31,7 +32,7 @@ axios_common.interceptors.request.use(
 let MessageBox_401_show = false
 
 // HTTP response 拦截器
-axios_common.interceptors.response.use(
+axios_aliyun.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -54,7 +55,7 @@ var http = {
      */
     get: function (url, params = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios_common({
+            axios_aliyun({
                 method: 'get',
                 url: url,
                 params: params,
@@ -74,7 +75,7 @@ var http = {
      */
     post: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios_common({
+            axios_aliyun({
                 method: 'post',
                 url: url,
                 data: data,
@@ -94,7 +95,7 @@ var http = {
      */
     put: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios_common({
+            axios_aliyun({
                 method: 'put',
                 url: url,
                 data: data,
@@ -114,7 +115,7 @@ var http = {
      */
     patch: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios_common({
+            axios_aliyun({
                 method: 'patch',
                 url: url,
                 data: data,
@@ -134,7 +135,7 @@ var http = {
      */
     delete: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            axios_common({
+            axios_aliyun({
                 method: 'delete',
                 url: url,
                 data: data,

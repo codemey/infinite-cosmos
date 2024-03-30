@@ -38,11 +38,16 @@ export default defineConfig({
         },
         proxy: {
             '/api/': {
-                // target: 'http://localhost:3000/',
-                target: 'https://openapi.alipan.com/',
+                target: 'http://localhost:3000/',
                 ws: true,
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api\//, '/'), // 如果需要重写请求路径
+            },
+            '/api-aliyun/': {
+                target: 'https://openapi.alipan.com/',
+                ws: true,
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api-aliyun\//, '/'), // 如果需要重写请求路径
             },
         }
     },
