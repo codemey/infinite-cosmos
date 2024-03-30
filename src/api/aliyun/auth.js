@@ -13,8 +13,15 @@ export default {
     getAccessToken: (code) => http.post(`${prePath}/access_token`, {
         client_id: config.aliyun_config.client_id,
         client_secret: config.aliyun_config.client_secret,
-        grant_type: "authorization_code",//refresh_token,刷新access_token
+        grant_type: "authorization_code",   //获取access_token
         code
+    }),
+    // 根据授权 code 获取 access_token
+    refreshAccessToken: (refresh_token) => http.post(`${prePath}/access_token`, {
+        client_id: config.aliyun_config.client_id,
+        client_secret: config.aliyun_config.client_secret,
+        grant_type: "refresh_token",    //刷新access_token
+        refresh_token
     }),
     // 获取用户信息
     getUserInfo: () => http.get(`${prePath}/users/info`),

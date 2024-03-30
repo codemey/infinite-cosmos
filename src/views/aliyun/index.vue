@@ -1,45 +1,88 @@
 <template>
     <div class="container ic-card">
-        <img :src="qrCodeUrl" />
+        <div class="scan-qrcode" v-if="qrCodeUrl">
+            <img :src="qrCodeUrl" />
+            <span v-if="scanQrcodeStatus">{{ scanQrcodeStatus }}</span>
+            <span v-else>请用阿里云盘App扫码</span>
+        </div>
 
-        <el-button @click="getBackupList">备份盘</el-button>
-        <el-button @click="getResourceList">资源库</el-button>
+        <div v-else>
+            <div style="display:flex;justify-content:space-between">
+                <div>
+                    <el-button @click="getDataList('backup_drive_id')">备份盘</el-button>
+                    <el-button @click="getDataList('resource_drive_id')">资源库</el-button>
+                </div>
+                <el-popover placement="left" :width="200" trigger="click">
+                    <template #reference>
+                        <img style="height:40px;width:40px;cursor: pointer;" :src="driveInfo.avatar" />
+                    </template>
+                    <div class="user-info">
+                        <img :src="driveInfo.avatar" />
+                        <span>{{ driveInfo.name }}</span>
+                        <el-button @click="quit">退出登录</el-button>
+                    </div>
+                </el-popover>
 
-        <el-divider></el-divider>
+            </div>
 
-        <div v-for="item in backupList.items" :key="item.file_id" @click="itemClick(item)">{{ item.name + (item.size? ' (' +
-            formatBytes(item.size) + ')':'') }}</div>
+            <el-divider></el-divider>
 
-        <el-divider></el-divider>
-        <div style="max-height: 200px;overflow: auto;">
-            <div v-for="item in itemList.items" :key="item.file_id" @click="itemClick(item)">{{ item.name + (item.size? ' (' +
-            formatBytes(item.size) + ')':'') }}</div>
+            <el-breadcrumb :separator-icon="ArrowRight">
+                <el-breadcrumb-item v-for="(item,index) in breadcrumbList" :key="item.drive_id">
+                    <span class="hover-pointer" :style="item.active?'font-weight:700':''" @click="breadcrumbClick(item.drive_id,item.file_id,index)">{{ item.name }}</span>
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+
+            <el-row class="row-header">
+                <el-col :span="16" style="font-size:14px">名称</el-col>
+                <el-col :span="4" style="font-size:14px">修改时间</el-col>
+                <el-col :span="4" style="font-size:14px">大小</el-col>
+            </el-row>
+            <el-scrollbar height="calc(100vh - 270px)">
+                <div v-for="item in dataList.items" :key="item.file_id">
+                    <el-row class="row-body" @click="itemClick(item)">
+                        <el-col :span="16">{{ item.name }}</el-col>
+                        <el-col :span="4">{{ dateFormat(new Date(item.updated_at)) }}</el-col>
+                        <el-col :span="4" v-if="item.size">{{ formatBytes(item.size) }}</el-col>
+                    </el-row>
+
+                    <el-divider style="opacity: 0.5;margin:0"></el-divider>
+                </div>
+            </el-scrollbar>
         </div>
     </div>
-
     <!-- 视频播放 -->
     <videoPlayer ref="videoPlayerRef"></videoPlayer>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from "vue"
-import { cache, formatBytes } from '@/utils/tool'
+import { cache, formatBytes, message, dateFormat } from '@/utils/tool'
 import apiAuth from '@/api/aliyun/auth'
 import apiUser from '@/api/aliyun/user'
 import apiOpenFile from '@/api/aliyun/openFile'
 import videoPlayer from './videoPlayer'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 const qrCodeUrl = ref('') //二维码地址
 const sid = ref('')
-const timer = ref(null)
 const authCode = ref('') //认证码
 const videoPlayerRef = ref(null)
+let getQrcodeStatusing = false //是否正在扫码
 
 onMounted(() => {
     const aliyun_token = cache.get('aliyun_token')
     // 已有缓存的登录token
     if (aliyun_token) {
-        getDriveInfo()
+        if (aliyun_token.expiresTime > new Date().getTime()) { // token过期，刷新
+            apiAuth.refreshAccessToken(aliyun_token.refresh_token).then(res => {
+                const expiresTime = new Date().getTime() + res.expires_in
+                cache.set('aliyun_token', { ...res, expiresTime })
+                getDriveInfo()
+            })
+        } else {
+            getDriveInfo()
+        }
     } else {
         //扫码登录
         scanQrcode()
@@ -47,42 +90,63 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-    clearInterval(timer.value)
-    timer.value = null
+    getQrcodeStatusing = false
 })
 
 watch(authCode, (val) => {
     if (val) {
         apiAuth.getAccessToken(val).then(res => {
             // 缓存TOKEN
-            cache.set('aliyun_token', res)
+            const expiresTime = new Date().getTime() + res.expires_in
+            cache.set('aliyun_token', { ...res, expiresTime })
+
             //获取登录信息
-            apiAuth.getUserInfo().then(userInfo => {
-                console.log(userInfo)
-            })
+            // apiAuth.getUserInfo().then(userInfo => {
+            //     console.log(userInfo)
+            // })
             // 获取网盘drive_id
             getDriveInfo()
         })
     }
 })
 //扫码登录
+const scanQrcodeStatus = ref('')
 const scanQrcode = () => {
     // 获取二维码
     apiAuth.getQrcode().then(res => {
         qrCodeUrl.value = res.qrCodeUrl
         sid.value = res.sid
+        getQrcodeStatusing = true
+        getQrcodeStatus()
     })
 
-    // 定时器获取扫码状态
-    timer.value = setInterval(() => {
-        apiAuth.getQrcodeStatus(sid.value).then(res => {
-            if (res.status === 'LoginSuccess') {
-                clearInterval(timer.value)
-                timer.value = null
-                authCode.value = res.authCode
-            }
-        })
-    }, 500)
+    // 递归获取扫码状态
+    async function getQrcodeStatus() {
+        if (!getQrcodeStatusing) {
+            return
+        }
+        const res = await apiAuth.getQrcodeStatus(sid.value)
+        if (res.status === 'WaitLogin') {
+            setTimeout(() => {
+                getQrcodeStatus()
+            }, 1);
+        }
+        //扫描成功
+        if (res.status === 'ScanSuccess') {
+            scanQrcodeStatus.value = '扫描成功！'
+            setTimeout(() => {
+                getQrcodeStatus()
+            }, 1);
+        }
+        //授权成功
+        if (res.status === 'LoginSuccess') {
+            qrCodeUrl.value = ''
+            authCode.value = res.authCode
+            message.success('授权成功！')
+            scanQrcodeStatus.value = ''
+        }
+    }
+    // }, 500)
 }
 
 const driveInfo = ref({})
@@ -90,6 +154,7 @@ const driveInfo = ref({})
 const getDriveInfo = () => {
     apiUser.getDriveInfo().then(res => {
         driveInfo.value = res
+        getDataList('backup_drive_id')
     }).catch(() => {
         //token过期,扫码登录
         cache.set('aliyun_token', '')
@@ -100,31 +165,48 @@ const getDriveInfo = () => {
 const getFileList = async (drive_id, parent_file_id) => {
     const data = {
         drive_id,
-        parent_file_id
+        parent_file_id,
+        order_by: 'name'
     }
     return await apiOpenFile.list(data)
 }
 // 获取备份盘列表
-const backupList = ref([])
-const getBackupList = () => {
-    getFileList(driveInfo.value.backup_drive_id, 'root').then(res => {
-        backupList.value = res
+const dataList = ref([])
+const getDataList = (type) => {
+    getFileList(driveInfo.value[type], 'root').then(res => {
+        dataList.value = res
+        //重置导航
+        breadcrumbList.value = [
+            {
+                drive_id: driveInfo.value[type],
+                parent_file_id: 'root',
+                name: type === 'backup_drive_id' ? '备份盘' : '资源库',
+                active: true
+            }
+        ]
     })
 }
 
-// 获取资源库列表
-const resourceList = ref([])
-const getResourceList = () => {
-
+// 面包屑点击
+const breadcrumbList = ref([]) //导航
+const breadcrumbClick = (drive_id, parent_file_id, index) => {
+    getFileList(drive_id, parent_file_id || 'root').then(res => {
+        dataList.value = res
+        breadcrumbList.value = breadcrumbList.value.filter((e, i) => i <= index)
+        breadcrumbList.value[index].active = true
+    })
 }
-
-const itemList = ref([])
+// 内容点击
 const itemClick = (item) => {
     //文件夹、视频、音频等格式处理
     if (item.type === 'folder') { //文件夹
         getFileList(item.drive_id, item.file_id).then(res => {
-            itemList.value = res
-            console.log(res);
+            dataList.value = res
+            breadcrumbList.value.forEach(e => {
+                e.active = false
+            })
+            item.active = true
+            breadcrumbList.value.push(item)
         })
     } else { //文件
         const data = {
@@ -144,11 +226,69 @@ const itemClick = (item) => {
         })
     }
 }
+
+const quit = () => {
+    cache.set('aliyun_token', '')
+    //扫码登录
+    scanQrcode()
+}
 </script>
 
 <style lang="scss" scoped>
 .container {
     margin: 40px 150px 10px 10px;
     height: calc(100vh - 100px);
+    .scan-qrcode {
+        margin: 100px auto;
+        height: 250px;
+        width: 250px;
+        padding: 50px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--el-color-primary);
+        border-radius: 10px;
+        & > img {
+            height: 70%;
+            width: 70%;
+        }
+        & > span {
+            margin-top: 20px;
+            color: var(--el-text-color-primary);
+        }
+    }
+}
+.hover-pointer {
+    font-size: 20px;
+}
+.el-row {
+    padding: 10px;
+    border-radius: 5px;
+}
+.row-header {
+    color: var(--el-text-color-primary);
+    opacity: 0.5;
+}
+.row-body:hover {
+    background-color: var(--el-color-primary);
+    cursor: pointer;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    & > img {
+        height: 60px;
+        width: 60px;
+    }
+    & > span {
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    & > .el-button {
+        width: 100%;
+    }
 }
 </style>
