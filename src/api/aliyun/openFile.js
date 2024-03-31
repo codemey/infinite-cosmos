@@ -6,6 +6,8 @@ export default {
     list: (data) => http.post(`${prePath}/list`, data),
     // 获取文件详情
     get: (data) => http.post(`${prePath}/get`, data),
+    // 获取文件下载链接
+    getDownloadUrl: (data) => http.post(`${prePath}/getDownloadUrl`, data),
     // 获取文件播放详情
     getVideoPreviewPlayInfo: (data) => http.post(`${prePath}/getVideoPreviewPlayInfo`, data),
     // 获取文件播放元数据

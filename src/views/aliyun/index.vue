@@ -41,7 +41,10 @@
             <el-scrollbar height="calc(100vh - 270px)">
                 <div v-for="item in dataList.items" :key="item.file_id">
                     <el-row class="row-body" @click="itemClick(item)">
-                        <el-col :span="16">{{ item.name }}</el-col>
+                        <el-col :span="16">
+                            <img style="height:28px;width:28px;" :src="handleThumbnail(item)">
+                            <span style="margin-left:5px">{{ item.name }}</span>
+                        </el-col>
                         <el-col :span="4">{{ dateFormat(new Date(item.updated_at)) }}</el-col>
                         <el-col :span="4" v-if="item.size">{{ formatBytes(item.size) }}</el-col>
                     </el-row>
@@ -212,21 +215,47 @@ const itemClick = (item) => {
         const data = {
             drive_id: item.drive_id,
             file_id: item.file_id,
-            // category: item.category,
         }
-        apiOpenFile.get(data).then(res => {
-            const data1 = {
-                drive_id: res.drive_id,
-                file_id: res.file_id,
-                category: 'live_transcoding',
-            }
-            apiOpenFile.getVideoPreviewPlayInfo(data1).then(res => {
-                videoPlayerRef.value.open(res, item.name)
-            })
-        })
+        switch (item.category) {
+            case 'video': //视频
+                apiOpenFile.get(data).then(res => {
+                    const data1 = {
+                        drive_id: res.drive_id,
+                        file_id: res.file_id,
+                        category: 'live_transcoding',
+                    }
+                    apiOpenFile.getVideoPreviewPlayInfo(data1).then(res => {
+                        videoPlayerRef.value.open(res, item.name)
+                    })
+                })
+                break;
+            case 'audio': //音频
+                apiOpenFile.get(data).then(res => {
+                    console.log(res.url)
+                })
+                break;
+            case 'doc': //文档
+                apiOpenFile.getDownloadUrl(data).then(res => {
+                    window.open(res.url)
+                })
+                break;
+
+            default:
+                break;
+        }
     }
 }
 
+// 处理缩略图
+const handleThumbnail = (item) => {
+    if (item.thumbnail) {
+        return item.thumbnail
+    } else if (item.type === 'folder') {
+        return '/img/folder.png'
+    } else if (item.category === 'audio') {
+        return '/img/audio.png'
+    }
+}
 const quit = () => {
     cache.set('aliyun_token', '')
     //扫码登录
@@ -264,6 +293,10 @@ const quit = () => {
 .el-row {
     padding: 10px;
     border-radius: 5px;
+    .el-col {
+        display: flex;
+        align-items: center;
+    }
 }
 .row-header {
     color: var(--el-text-color-primary);
