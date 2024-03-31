@@ -69,88 +69,80 @@ import { ArrowRight } from '@element-plus/icons-vue'
 
 const qrCodeUrl = ref('') //二维码地址
 const sid = ref('')
-const authCode = ref('') //认证码
 const videoPlayerRef = ref(null)
 let getQrcodeStatusing = false //是否正在扫码
+const scanQrcodeStatus = ref('') //扫码返回状态
 
-onMounted(() => {
+const handleAuthorization = () => {
     const aliyun_token = cache.get('aliyun_token')
-    // 已有缓存的登录token
-    if (aliyun_token) {
-        if (aliyun_token.expiresTime > new Date().getTime()) { // token过期，刷新
+    if (aliyun_token) { // 已有缓存的登录token
+        if (aliyun_token.expiresTime < new Date().getTime()) { // token过期，刷新
             apiAuth.refreshAccessToken(aliyun_token.refresh_token).then(res => {
-                const expiresTime = new Date().getTime() + res.expires_in
+                const expiresTime = new Date().getTime() + res.expires_in * 1000
                 cache.set('aliyun_token', { ...res, expiresTime })
                 getDriveInfo()
             })
         } else {
             getDriveInfo()
         }
-    } else {
-        //扫码登录
-        scanQrcode()
+    } else {  // 扫码登录
+        // 获取二维码
+        apiAuth.getQrcode().then(res => {
+            qrCodeUrl.value = res.qrCodeUrl
+            sid.value = res.sid
+            getQrcodeStatusing = true
+            getQrcodeStatus()
+        })
+
+        // 递归获取扫码状态
+        async function getQrcodeStatus() {
+            if (!getQrcodeStatusing) {
+                return
+            }
+            const res = await apiAuth.getQrcodeStatus(sid.value)
+            if (res.status === 'WaitLogin') {
+                setTimeout(() => {
+                    getQrcodeStatus()
+                }, 1);
+            }
+            // 扫描成功
+            if (res.status === 'ScanSuccess') {
+                scanQrcodeStatus.value = '扫描成功！'
+                setTimeout(() => {
+                    getQrcodeStatus()
+                }, 1);
+            }
+            // 授权成功
+            if (res.status === 'LoginSuccess') {
+                qrCodeUrl.value = ''
+                message.success('授权成功！')
+                scanQrcodeStatus.value = ''
+
+                //根据授权code获取access_token
+                apiAuth.getAccessToken(res.authCode).then(res => {
+                    // 缓存TOKEN
+                    const expiresTime = new Date().getTime() + res.expires_in * 1000
+                    cache.set('aliyun_token', { ...res, expiresTime })
+
+                    //获取登录信息
+                    // apiAuth.getUserInfo().then(userInfo => {
+                    //     console.log(userInfo)
+                    // })
+                    // 获取网盘drive_id
+                    getDriveInfo()
+                })
+            }
+        }
     }
+}
+onMounted(() => {
+    // 处理用户授权
+    handleAuthorization()
 })
 
 onBeforeUnmount(() => {
     getQrcodeStatusing = false
 })
-
-watch(authCode, (val) => {
-    if (val) {
-        apiAuth.getAccessToken(val).then(res => {
-            // 缓存TOKEN
-            const expiresTime = new Date().getTime() + res.expires_in
-            cache.set('aliyun_token', { ...res, expiresTime })
-
-            //获取登录信息
-            // apiAuth.getUserInfo().then(userInfo => {
-            //     console.log(userInfo)
-            // })
-            // 获取网盘drive_id
-            getDriveInfo()
-        })
-    }
-})
-//扫码登录
-const scanQrcodeStatus = ref('')
-const scanQrcode = () => {
-    // 获取二维码
-    apiAuth.getQrcode().then(res => {
-        qrCodeUrl.value = res.qrCodeUrl
-        sid.value = res.sid
-        getQrcodeStatusing = true
-        getQrcodeStatus()
-    })
-
-    // 递归获取扫码状态
-    async function getQrcodeStatus() {
-        if (!getQrcodeStatusing) {
-            return
-        }
-        const res = await apiAuth.getQrcodeStatus(sid.value)
-        if (res.status === 'WaitLogin') {
-            setTimeout(() => {
-                getQrcodeStatus()
-            }, 1);
-        }
-        //扫描成功
-        if (res.status === 'ScanSuccess') {
-            scanQrcodeStatus.value = '扫描成功！'
-            setTimeout(() => {
-                getQrcodeStatus()
-            }, 1);
-        }
-        //授权成功
-        if (res.status === 'LoginSuccess') {
-            qrCodeUrl.value = ''
-            authCode.value = res.authCode
-            message.success('授权成功！')
-            scanQrcodeStatus.value = ''
-        }
-    }
-    // }, 500)
-}
 
 const driveInfo = ref({})
 // 获取网盘id
@@ -159,9 +151,8 @@ const getDriveInfo = () => {
         driveInfo.value = res
         getDataList('backup_drive_id')
     }).catch(() => {
-        //token过期,扫码登录
-        cache.set('aliyun_token', '')
-        scanQrcode()
+        //token过期,处理用户授权
+        handleAuthorization()
     })
 }
 // 获取子文件列表通用方法
@@ -258,8 +249,7 @@ const handleThumbnail = (item) => {
 }
 const quit = () => {
     cache.set('aliyun_token', '')
-    //扫码登录
-    scanQrcode()
+    handleAuthorization()
 }
 </script>
 
