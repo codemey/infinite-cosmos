@@ -24,6 +24,12 @@
                             <el-link :href="'http://' + row.website" target="_blank">{{ row.website }}</el-link>
                         </div>
                     </template>
+                    <template #header="{ column }">
+                        <div style="display:flex;">
+                            <span>{{ column.label }}</span>
+                            <icon-filter class="hover-pointer" @click="customDialog('cd'+column.property)" :class="'cd'+column.property"></icon-filter>
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
                     <template #default="{ row }">
@@ -39,6 +45,8 @@
     </icPage>
 
     <formDialog ref="formDialogRef" @reload="doSearch"></formDialog>
+
+    <customPopover ref="customPopoverRef"></customPopover>
 </template>
 
 <script setup>
@@ -46,6 +54,8 @@ import { ref, reactive, onMounted } from "vue"
 import api from "@/api/pwdManagement"
 import formDialog from './formDialog.vue'
 import { copyToClipboard, message, messageBox, useSearch } from '@/utils/tool'
+import customPopover from './customPopover'
+
 //表单
 const form = reactive({
     keyword: "",
@@ -79,6 +89,11 @@ const handleDel = (id) => {
             doSearch()
         })
     })
+}
+// 表头过滤
+const customPopoverRef = ref(null)
+const customDialog = (className) => {
+    customPopoverRef.value.open(className)
 }
 </script>
 
