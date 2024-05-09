@@ -10,12 +10,13 @@ export default defineConfig({
         vue(),
         AutoImport({
             resolvers: [ElementPlusResolver()],
-            // imports: ['vue', 'vue-router', 'pinia'],vue相关自动引入
+            imports: ['vue', 'vue-router', 'pinia'],//vue相关自动引入
+            dts: 'src/vue.d.ts'  //生成类型声明文件
         }),
         Components({
             resolvers: [ElementPlusResolver({ importStyle: "sass" })],
             dirs: ['src/components'],   //自动引入自定义组件
-            dts: 'src/components.d.ts'  //生成组件配置文件
+            dts: 'src/components.d.ts'  //生成类型声明文件
         }),
     ],
     resolve: {
