@@ -9,6 +9,7 @@
 
 <script setup>
 import { nextTick, ref, watch } from 'vue'
+import Hls from 'hls.js';
 
 const emit = defineEmits(['reload'])
 const dialogVisible = ref(false)
