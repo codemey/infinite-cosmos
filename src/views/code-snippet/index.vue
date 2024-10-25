@@ -7,35 +7,37 @@
             </div>
         </template>
         <template #main>
-            <div class="ic-card" v-for="item in list" :key="item">
-                <div class="snippet-header">
-                    <el-affix :target="'body'" :offset="90">
-                        <span title="编辑" v-if="!item.editable">
-                            <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
-                        </span>
-                        <span title="保存" v-else>
-                            <icon-save class="hover-pointer" @click="save(item)"></icon-save>
-                        </span>
-                        <span title="复制代码">
-                            <icon-copy class="hover-pointer" @click="copyToClipboard(item.content)"></icon-copy>
-                        </span>
-                        <span title="展开">
-                            <icon-expand class="hover-pointer" @click="expand(item)"></icon-expand>
-                        </span>
-                        <span title="删除" style="fill: red;">
-                            <icon-delete class="hover-pointer" @click="del(item)"></icon-delete>
-                        </span>
-                    </el-affix>
-                </div>
-                <div class="snippet-content" :class="item.collapse ? 'more-mask' : ''" v-if="!item.editable">
-                    <icCodeHighlight :code="item.content"></icCodeHighlight>
-                </div>
-                <div class="snippet-content" v-else>
-                    <icCodeEditor v-model="item.content" />
-                </div>
-                <div class="snippet-footer">
-                    <textarea v-if="item.editable" v-model="item.desc" />
-                    <span v-else>{{ item.desc }}</span>
+            <div v-loading="loading">
+                <div class="ic-card" v-for="item in list" :key="item">
+                    <div class="snippet-header">
+                        <el-affix :target="'body'" :offset="90">
+                            <span title="编辑" v-if="!item.editable">
+                                <icon-edit class="hover-pointer" @click="item.editable = !item.editable"></icon-edit>
+                            </span>
+                            <span title="保存" v-else>
+                                <icon-save class="hover-pointer" @click="save(item)"></icon-save>
+                            </span>
+                            <span title="复制代码">
+                                <icon-copy class="hover-pointer" @click="copyToClipboard(item.content)"></icon-copy>
+                            </span>
+                            <span title="展开">
+                                <icon-expand class="hover-pointer" @click="expand(item)"></icon-expand>
+                            </span>
+                            <span title="删除" style="fill: red;">
+                                <icon-delete class="hover-pointer" @click="del(item)"></icon-delete>
+                            </span>
+                        </el-affix>
+                    </div>
+                    <div class="snippet-content" :class="item.collapse ? 'more-mask' : ''" v-if="!item.editable">
+                        <icCodeHighlight :code="item.content"></icCodeHighlight>
+                    </div>
+                    <div class="snippet-content" v-else>
+                        <icCodeEditor v-model="item.content" />
+                    </div>
+                    <div class="snippet-footer">
+                        <textarea v-if="item.editable" v-model="item.desc" />
+                        <span v-else>{{ item.desc }}</span>
+                    </div>
                 </div>
             </div>
         </template>
@@ -48,7 +50,7 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue"
 import api from "@/api/codeSnippet"
-import { copyToClipboard, message, messageBox, elevator, useSearch } from '@/utils/tool'
+import { copyToClipboard, message, messageBox, elevator, useSearch, loading } from '@/utils/tool'
 
 defineOptions({
     name: 'code-snippet'
@@ -62,7 +64,7 @@ const form = reactive({
     pageNo: 1,
     pageSize: 10,
 });
-const { list, loading, total, doSearch } = useSearch(api, form)
+const { list, total, doSearch } = useSearch(api, form)
 const DoSearch = () => {
     doSearch(res => {
         res.records.forEach(e => {

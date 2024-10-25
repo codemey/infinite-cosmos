@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { ElNotification, ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/theme-chalk/el-notification.css';
 import 'element-plus/theme-chalk/el-message.css';
@@ -211,3 +211,17 @@ export const formatBytes = (bytes) => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
+
+/**
+ * 全局loading
+ */
+const loadingCount = ref(0)
+export const loading = computed({
+    get() {
+        return loadingCount.value > 0
+    },
+    set(val) {
+        loadingCount.value += val ? 1 : -1
+        loadingCount.value = Math.max(loadingCount.value, 0)
+    }
+})

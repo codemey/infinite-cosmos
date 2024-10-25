@@ -1,7 +1,6 @@
 import axios from 'axios';
 // import sysConfig from "@/config";
-import { notification } from '@/utils/tool';
-
+import { notification, loading } from '@/utils/tool';
 const axios_common = axios.create({
     baseURL: '/api'
 });
@@ -54,6 +53,7 @@ var http = {
      */
     get: function (url, params = {}, config = {}) {
         return new Promise((resolve, reject) => {
+            loading.value = true
             axios_common({
                 method: 'get',
                 url: url,
@@ -63,6 +63,8 @@ var http = {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error);
+            }).finally(() => {
+                loading.value = false
             })
         })
     },
@@ -74,6 +76,7 @@ var http = {
      */
     post: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
+            loading.value = true
             axios_common({
                 method: 'post',
                 url: url,
@@ -83,6 +86,8 @@ var http = {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error);
+            }).finally(() => {
+                loading.value = false
             })
         })
     },
@@ -94,6 +99,7 @@ var http = {
      */
     put: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
+            loading.value = true
             axios_common({
                 method: 'put',
                 url: url,
@@ -103,6 +109,8 @@ var http = {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error);
+            }).finally(() => {
+                loading.value = false
             })
         })
     },
@@ -114,6 +122,7 @@ var http = {
      */
     patch: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
+            loading.value = true
             axios_common({
                 method: 'patch',
                 url: url,
@@ -123,6 +132,8 @@ var http = {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error);
+            }).finally(() => {
+                loading.value = false
             })
         })
     },
@@ -134,6 +145,7 @@ var http = {
      */
     delete: function (url, data = {}, config = {}) {
         return new Promise((resolve, reject) => {
+            loading.value = true
             axios_common({
                 method: 'delete',
                 url: url,
@@ -143,6 +155,8 @@ var http = {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error);
+            }).finally(() => {
+                loading.value = false
             })
         })
     },
