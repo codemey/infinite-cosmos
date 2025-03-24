@@ -19,6 +19,9 @@
         <div class="ic-card ic-border-animation" @click="go('/aliyun')">
             <h2>阿里云盘</h2>
         </div>
+        <div class="ic-card ic-border-animation" @click="go('/export-api-doc')">
+            <h2>导出api文档</h2>
+        </div>
     </div>
 </template>
 

@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@highlightjs/vue-plugin": "^2.1.2",
+        "async": "^3.2.2",
         "axios": "^1.6.3",
         "change-case": "^5.4.2",
         "element-plus": "^2.3.12",
