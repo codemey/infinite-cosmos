@@ -5,7 +5,6 @@ $border-radius-2: 10px;
 $border-radius-3: 15px;
 
 :root {
-    // 线条
     --border-radius-1: #{$border-radius-1};
     --border-radius-2: #{$border-radius-2};
     --border-radius-3: #{$border-radius-3};
@@ -21,7 +20,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-    display: none; //隐藏滚动条
+    display: none;
 }
 
 svg {
@@ -34,7 +33,7 @@ svg {
     cursor: pointer;
 
     &:hover {
-        transform: scale(1.2);
+        transform: scale(1.15);
     }
 }
 
@@ -42,24 +41,38 @@ input,
 textarea {
     height: 100%;
     width: 100%;
-    color: var(--el-text-color-primary);
+    color: #2d3748;
     font-size: 16px;
-    font-weight: 700;
-    border-radius: 5px;
-    padding: 10px;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
 }
 
-// 卡片
 .ic-card {
-    padding: 20px;
+    padding: 24px;
     font-size: 16px;
-    color: var(--el-text-color-primary);
-    background: var(--el-bg-color);
-    border-radius: var(--border-radius-3);
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    color: #2d3748;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
 }
 
-// border动画
 .ic-border-animation {
     position: relative;
 
@@ -71,7 +84,7 @@ textarea {
         left: -3px;
         right: -3px;
         bottom: -3px;
-        border: 3px solid var(--el-bg-color);
+        border: 3px solid #667eea;
         border-radius: 20px;
         animation: clippath 3s linear;
     }
@@ -88,20 +101,11 @@ textarea {
         clip-path: inset(0 0 50% 0);
     }
 
-    // 25% {
-    //     clip-path: inset(0 70% 0 0);
-    // }
-
     50% {
         clip-path: inset(50% 0 0 0);
     }
-
-    // 75% {
-    //     clip-path: inset(0 0 0 70%);
-    // }
 }
 
-// 更多数据遮罩层
 .more-mask {
     position: relative;
     height: 500px;
@@ -112,9 +116,9 @@ textarea {
         position: absolute;
         width: 100%;
         height: 100px;
-        background: var(--bg-color-linear);
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.95), transparent);
         bottom: 0;
-        opacity: 0.7;
+        opacity: 1;
     }
 
     &::before {
@@ -123,53 +127,74 @@ textarea {
         bottom: -4px;
         left: calc(50% - 23px);
         transform: rotate(-90deg) scaleY(2);
-        color: var(--el-color-primary);
+        color: #667eea;
         z-index: 10;
     }
 }
 
-// 添加按钮
 .ic-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--el-text-color-primary);
-    background-color: var(--el-bg-color);
-    border-radius: var(--border-radius-2);
-    margin-left: 10px;
-    padding: 0 10px;
+    gap: 8px;
+    color: #2d3748;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 8px 16px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-        background-color: var(--el-bg-color-page);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+
+        svg {
+            fill: #ffffff;
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
     }
 }
 
-// 字体样式
 .title1 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
+    color: #2d3748;
 }
 
 .title2 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
+    color: #2d3748;
 }
 
 .title3 {
     font-size: 20px;
+    font-weight: 600;
+    color: #2d3748;
 }
 
 .content1 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a5568;
 }
 
 .content2 {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
+    color: #4a5568;
 }
 
 .content3 {
-    font-size: 16px;
+    font-size: 14px;
+    color: #718096;
 }

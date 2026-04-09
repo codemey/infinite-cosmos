@@ -98,7 +98,33 @@ const customDialog = (className) => {
 </script>
 
 <style lang="scss" scoped>
-.tag:hover {
+.tag {
     cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+}
+
+:deep(.el-table) {
+    border-radius: 12px;
+    overflow: hidden;
+
+    th.el-table__cell {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    td.el-table__cell {
+        transition: background 0.2s ease;
+    }
+
+    .el-table__row:hover td.el-table__cell {
+        background: rgba(102, 126, 234, 0.05);
+    }
 }
 </style>

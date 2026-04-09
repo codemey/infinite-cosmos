@@ -165,68 +165,92 @@ const del = (item, index) => {
 <style lang="scss" scoped>
 .ic-card {
     white-space: pre-wrap;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.2);
+    }
 
     .ic-header {
-        height: 25px;
+        height: 40px;
         width: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         svg {
-            margin: 0 5px;
+            margin: 0 4px;
+            padding: 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba(102, 126, 234, 0.1);
+            }
         }
+
         .ic-header-left {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
     }
 
     .ic-content {
-        border-radius: var(--border-radius-2);
-        margin: 10px 0;
+        border-radius: 12px;
+        margin: 16px 0;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(calc(20% - 10px), 1fr));
-        gap: 10px;
+        gap: 16px;
 
         .item {
-            padding: 40px 0 0 0;
+            padding: 48px 0 0 0;
             position: relative;
 
             .category {
                 position: absolute;
                 top: 0;
                 left: 0;
-                height: 40px;
+                height: 44px;
                 width: 100%;
-                border-radius: var(--border-radius-3) var(--border-radius-3) 0 0;
-                color: var(--el-text-color-primary);
-                background-color: var(--el-color-primary);
+                border-radius: 12px 12px 0 0;
+                color: #ffffff;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: 700;
             }
 
             .content {
                 height: 100%;
-                min-height: 100px;
+                min-height: 120px;
                 max-height: 300px;
-                background-color: var(--el-color-primary-light-9);
+                background: rgba(102, 126, 234, 0.05);
                 overflow: auto;
+                border-radius: 0 0 12px 12px;
+                border: 1px solid rgba(102, 126, 234, 0.1);
+                border-top: none;
 
                 .el-textarea {
                     font-size: 16px;
                     height: 300px;
 
                     :deep(.el-textarea__inner:focus) {
-                        box-shadow: 0 0 2px 4px
-                            var(--el-input-focus-border-color) inset;
+                        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) inset;
                     }
 
                     :deep(textarea) {
                         border-radius: 0;
+                        background: transparent;
                     }
                 }
             }

@@ -118,25 +118,62 @@ const del = (item) => {
 <style lang="scss" scoped>
 .ic-card {
     white-space: pre-wrap;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.2);
+    }
 
     .snippet-header {
-        height: 25px;
+        height: 32px;
         width: 100%;
         text-align: right;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
 
         svg {
-            margin: 0 5px;
+            margin: 0 4px;
+            padding: 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba(102, 126, 234, 0.1);
+            }
         }
     }
 
     .snippet-content {
-        border-radius: var(--border-radius-2);
-        margin: 10px;
+        border-radius: 12px;
+        margin: 12px 0;
+        overflow: hidden;
     }
 
     .snippet-footer {
-        margin: 10px;
+        margin: 12px 0;
+        padding: 12px 16px;
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 10px;
+        font-size: 14px;
+        color: #718096;
+
+        textarea {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            min-height: 60px;
+            resize: vertical;
+        }
     }
 }
 </style>

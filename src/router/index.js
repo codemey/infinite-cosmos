@@ -37,16 +37,6 @@ const routes = [
                 name: 'translate',
                 component: () => import('@/views/translate/index.vue'),
             },
-            {
-                path: '/aliyun',
-                name: 'aliyun',
-                component: () => import('@/views/aliyun/index.vue'),
-            },
-            {
-                path: '/export-api-doc',
-                name: 'export-api-doc',
-                component: () => import('@/views/export-api-doc/index.vue'),
-            },
         ]
     },
 ];
