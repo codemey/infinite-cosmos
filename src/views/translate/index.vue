@@ -124,7 +124,6 @@ const toKebabCase = () => {
     height: 100%;
     width: 100%;
     padding: 24px;
-    background: var(--bg-color-linear);
     display: flex;
     gap: 24px;
     box-sizing: border-box;
