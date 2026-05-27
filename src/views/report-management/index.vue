@@ -207,7 +207,7 @@ const del = (item, index) => {
         border-radius: 12px;
         margin: 16px 0;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(calc(20% - 10px), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(calc(20% - 20px), 1fr));
         gap: 16px;
 
         .item {
