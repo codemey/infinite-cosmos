@@ -5,23 +5,14 @@
             <p class="hero-subtitle">一站式开发工具集合</p>
         </div>
         <div class="cards-grid">
-            <div class="modern-card" @click="go('code-snippet')">
+            <div class="modern-card" @click="go('translate')">
                 <div class="card-icon">
                     <el-icon :size="40">
-                        <Document />
+                        <ChatDotRound />
                     </el-icon>
                 </div>
-                <h3 class="card-title">代码片段</h3>
-                <p class="card-desc">管理和搜索代码片段</p>
-            </div>
-            <div class="modern-card" @click="go('json-to-table')">
-                <div class="card-icon">
-                    <el-icon :size="40">
-                        <Grid />
-                    </el-icon>
-                </div>
-                <h3 class="card-title">表格列转换</h3>
-                <p class="card-desc">JSON数据转表格列</p>
+                <h3 class="card-title">翻译神器</h3>
+                <p class="card-desc">多语言翻译工具</p>
             </div>
             <div class="modern-card" @click="go('report-management')">
                 <div class="card-icon">
@@ -32,31 +23,40 @@
                 <h3 class="card-title">报表管理</h3>
                 <p class="card-desc">生成和管理报表</p>
             </div>
+            <div class="modern-card" @click="go('code-snippet')">
+                <div class="card-icon">
+                    <el-icon :size="40">
+                        <Tickets />
+                    </el-icon>
+                </div>
+                <h3 class="card-title">代码片段</h3>
+                <p class="card-desc">管理和搜索代码片段</p>
+            </div>
+            <div class="modern-card" @click="go('json-to-table')">
+                <div class="card-icon">
+                    <el-icon :size="40">
+                        <SetUp />
+                    </el-icon>
+                </div>
+                <h3 class="card-title">表格列转换</h3>
+                <p class="card-desc">JSON数据转表格列</p>
+            </div>
             <div class="modern-card" @click="go('pwd-management')">
                 <div class="card-icon">
                     <el-icon :size="40">
-                        <Lock />
+                        <Key />
                     </el-icon>
                 </div>
                 <h3 class="card-title">密码管理</h3>
                 <p class="card-desc">安全存储密码信息</p>
             </div>
-            <div class="modern-card" @click="go('translate')">
-                <div class="card-icon">
-                    <el-icon :size="40">
-                        <ChatDotRound />
-                    </el-icon>
-                </div>
-                <h3 class="card-title">翻译神器</h3>
-                <p class="card-desc">多语言翻译工具</p>
-            </div>
-
         </div>
     </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { ChatDotRound, DataLine, Key, SetUp, Tickets } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const go = (name) => {
