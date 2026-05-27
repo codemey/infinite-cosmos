@@ -20,7 +20,6 @@
     height: 100%;
     width: 100%;
     padding: 24px;
-    background: var(--bg-color-linear);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
