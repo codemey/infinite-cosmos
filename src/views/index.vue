@@ -7,35 +7,45 @@
         <div class="cards-grid">
             <div class="modern-card" @click="go('code-snippet')">
                 <div class="card-icon">
-                    <el-icon :size="40"><Document /></el-icon>
+                    <el-icon :size="40">
+                        <Document />
+                    </el-icon>
                 </div>
                 <h3 class="card-title">代码片段</h3>
                 <p class="card-desc">管理和搜索代码片段</p>
             </div>
             <div class="modern-card" @click="go('json-to-table')">
                 <div class="card-icon">
-                    <el-icon :size="40"><Grid /></el-icon>
+                    <el-icon :size="40">
+                        <Grid />
+                    </el-icon>
                 </div>
                 <h3 class="card-title">表格列转换</h3>
                 <p class="card-desc">JSON数据转表格列</p>
             </div>
             <div class="modern-card" @click="go('report-management')">
                 <div class="card-icon">
-                    <el-icon :size="40"><DataLine /></el-icon>
+                    <el-icon :size="40">
+                        <DataLine />
+                    </el-icon>
                 </div>
                 <h3 class="card-title">报表管理</h3>
                 <p class="card-desc">生成和管理报表</p>
             </div>
             <div class="modern-card" @click="go('pwd-management')">
                 <div class="card-icon">
-                    <el-icon :size="40"><Lock /></el-icon>
+                    <el-icon :size="40">
+                        <Lock />
+                    </el-icon>
                 </div>
                 <h3 class="card-title">密码管理</h3>
                 <p class="card-desc">安全存储密码信息</p>
             </div>
             <div class="modern-card" @click="go('translate')">
                 <div class="card-icon">
-                    <el-icon :size="40"><ChatDotRound /></el-icon>
+                    <el-icon :size="40">
+                        <ChatDotRound />
+                    </el-icon>
                 </div>
                 <h3 class="card-title">翻译神器</h3>
                 <p class="card-desc">多语言翻译工具</p>
@@ -58,12 +68,11 @@ const go = (name) => {
 .ic-container {
     width: 100%;
     height: 100%;
-    padding: 40px;
     overflow-y: auto;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 40px;
 }
 
 .hero-section {
@@ -118,7 +127,7 @@ const go = (name) => {
         left: 0;
         right: 0;
         height: 4px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
+        background: var(--bg-color-linear);
         transform: scaleX(0);
         transition: transform 0.3s ease;
     }
@@ -133,7 +142,7 @@ const go = (name) => {
 
         .card-icon {
             transform: scale(1.1) rotate(5deg);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-color-linear);
         }
 
         .card-icon :deep(svg) {
@@ -182,6 +191,7 @@ const go = (name) => {
         opacity: 0;
         transform: translateY(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -193,6 +203,7 @@ const go = (name) => {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

@@ -9,7 +9,7 @@
                 <icon-arrows class="arrows-icon" @click="handleSwitch"></icon-arrows>
 
                 <el-select v-model="to" class="modern-select">
-                    <el-option v-for="item in language.filter(e=>e.key!=='auto')" :key="item.key" :label="item.value" :value="item.key" />
+                    <el-option v-for="item in language.filter(e => e.key !== 'auto')" :key="item.key" :label="item.value" :value="item.key" />
                 </el-select>
             </div>
 
@@ -124,7 +124,7 @@ const toKebabCase = () => {
     height: 100%;
     width: 100%;
     padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-color-linear);
     display: flex;
     gap: 24px;
     box-sizing: border-box;
@@ -180,24 +180,32 @@ const toKebabCase = () => {
 
     .input-area {
         flex: 1;
+        min-height: 0;
         padding: 20px;
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 16px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
 
         .content-input {
             height: 100%;
+            display: flex;
 
             :deep(.el-textarea) {
                 height: 100%;
+                display: flex;
+                flex: 1;
 
                 .el-textarea__inner {
-                    height: 100%;
+                    flex: 1;
+                    height: auto;
+                    min-height: 0 !important;
                     font-size: 16px;
                     border-radius: 12px;
                     border: 1px solid rgba(102, 126, 234, 0.2);
+                    resize: none;
                     transition: all 0.3s ease;
 
                     &:focus {
@@ -236,7 +244,7 @@ const toKebabCase = () => {
             background: rgba(102, 126, 234, 0.05);
 
             &:hover {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: var(--bg-color-linear);
                 fill: #ffffff;
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);

@@ -37,6 +37,10 @@ const openSetting = () => {
     display: flex;
     height: 100%;
     position: relative;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .left-navbar {
@@ -73,8 +77,9 @@ const openSetting = () => {
 }
 
 .right-essence {
-    width: 100%;
+    width: calc(100% - 90px);
     height: 100%;
+    margin-left: 90px;
     overflow: hidden;
 }
 </style>

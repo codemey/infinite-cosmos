@@ -27,7 +27,7 @@
                     <template #header="{ column }">
                         <div style="display:flex;">
                             <span>{{ column.label }}</span>
-                            <icon-filter class="hover-pointer" @click="customDialog('cd'+column.property)" :class="'cd'+column.property"></icon-filter>
+                            <icon-filter class="hover-pointer" @click="customDialog('cd' + column.property)" :class="'cd' + column.property"></icon-filter>
                         </div>
                     </template>
                 </el-table-column>
@@ -114,7 +114,7 @@ const customDialog = (className) => {
     overflow: hidden;
 
     th.el-table__cell {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--bg-color-linear);
         color: #ffffff;
         font-weight: 600;
     }

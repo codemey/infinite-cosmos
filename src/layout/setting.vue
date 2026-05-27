@@ -9,7 +9,15 @@
             </el-form-item>
             <el-divider></el-divider>
             <el-form-item label="背景图片">
-                <icUpload v-model="backgroundImage" :limit="1"></icUpload>
+                <el-upload v-if="!backgroundImage" list-type="picture-card" accept="image/*" :auto-upload="false" :show-file-list="false" :on-change="backgroundImageChange">
+                    <iconAdd></iconAdd>
+                </el-upload>
+                <div v-else class="background-image-preview">
+                    <el-image :src="backgroundImage" fit="cover" :preview-src-list="[backgroundImage]" hide-on-click-modal />
+                    <span class="hover-pointer delete" @click="backgroundImageRemove">
+                        <iconDelete style="fill:#fff;background:red;border-radius:5px;"></iconDelete>
+                    </span>
+                </div>
             </el-form-item>
         </el-form>
     </el-drawer>
@@ -18,7 +26,7 @@
 <script setup>
 import { ref } from "vue"
 import { useCssVar } from '@vueuse/core'
-import { cache } from '@/utils/tool'
+import { cache, message } from '@/utils/tool'
 import config from '@/config'
 import colorTool from '@/utils/color'
 
@@ -63,9 +71,60 @@ const textColorChange = (color) => {
 }
 
 // 设置背景图片
-const backgroundImage = ref('api/img/1705193834382.jpg')
-// TODO:接口拿到setting页面的数据，给backgroundImage赋值，登录页面？
+const backgroundImage = ref(cache.get('background_image') || '')
+const setBackgroundImage = (url) => {
+    const bgImage = useCssVar('--bg-image', null)
+    bgImage.value = url ? `url("${url}")` : 'none'
+}
+setBackgroundImage(backgroundImage.value)
+
+const backgroundImageChange = (file) => {
+    const raw = file.raw
+    if (!raw || !raw.type.startsWith('image/')) {
+        message.warning('请选择图片文件')
+        return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+        backgroundImage.value = reader.result
+        cache.set('background_image', reader.result)
+        setBackgroundImage(reader.result)
+    }
+    reader.readAsDataURL(raw)
+}
+
+const backgroundImageRemove = () => {
+    backgroundImage.value = ''
+    cache.remove('background_image')
+    setBackgroundImage('')
+}
 defineExpose({ open })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.background-image-preview {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    border-radius: 6px;
+    overflow: hidden;
+
+    .el-image {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .delete {
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        display: none;
+    }
+
+    &:hover>.delete {
+        display: block;
+    }
+}
+</style>

@@ -20,7 +20,7 @@
     height: 100%;
     width: 100%;
     padding: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-color-linear);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;

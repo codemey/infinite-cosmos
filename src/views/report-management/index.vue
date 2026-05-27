@@ -33,7 +33,7 @@
                             <el-option v-for="item in reportTypeOptions" :key="item.key" :label="item.value" :value="item.key" />
                         </el-select>
                         <template v-else>
-                            <el-tag style="margin-right: 10px;" effect="dark" v-if="item.type==='day'">日报</el-tag>
+                            <el-tag style="margin-right: 10px;" effect="dark" v-if="item.type === 'day'">日报</el-tag>
                             <el-tag style="margin-right: 10px;" type="info" effect="dark" v-else>月报</el-tag>
                         </template>
 
@@ -222,7 +222,7 @@ const del = (item, index) => {
                 width: 100%;
                 border-radius: 12px 12px 0 0;
                 color: #ffffff;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: var(--bg-color-linear);
                 display: flex;
                 justify-content: center;
                 align-items: center;

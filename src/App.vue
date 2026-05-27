@@ -14,6 +14,9 @@ import config from '@/config'
 //设置颜色变量
 const theme_color = cache.get('theme_color') || config.theme_color
 const text_color = cache.get('text_color') || config.text_color
+const background_image = cache.get('background_image') || ''
+const bgImage = useCssVar('--bg-image', null)
+bgImage.value = background_image ? `url("${background_image}")` : 'none'
 if (theme_color) {
     // 渐变色
     const linearColor = useCssVar('--bg-color-linear', null)
