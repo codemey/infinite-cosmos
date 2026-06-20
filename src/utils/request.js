@@ -2,7 +2,7 @@ import axios from 'axios';
 // import sysConfig from "@/config";
 import { notification, loading } from '@/utils/tool';
 const axios_common = axios.create({
-    baseURL: '/api'
+    baseURL: import.meta.env.VITE_API_BASE_URL || '/api'
 });
 
 axios_common.defaults.timeout = 10000
