@@ -1,0 +1,12 @@
+{
+  "version": "2.0",
+  "envId": "infinite-d9g2goett3e4e4571",
+  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+  "app": {
+    "serviceName": "infinite-cosmos",
+    "framework": "vite",
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "outputDir": "dist"
+  }
+}
