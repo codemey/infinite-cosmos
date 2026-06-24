@@ -4,21 +4,19 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        vue(),
-        AutoImport({
-            resolvers: [ElementPlusResolver()],
-            imports: ['vue', 'vue-router', 'pinia'],//vue相关自动引入
-            dts: 'src/vue.d.ts'  //生成类型声明文件
-        }),
-        Components({
-            resolvers: [ElementPlusResolver({ importStyle: "sass" })],
-            dirs: ['src/components'],   //自动引入自定义组件
-            dts: 'src/components.d.ts'  //生成类型声明文件
-        }),
-    ],
+    plugins: [vue(), AutoImport({
+        resolvers: [ElementPlusResolver()],
+        imports: ['vue', 'vue-router', 'pinia'],//vue相关自动引入
+        dts: 'src/vue.d.ts'  //生成类型声明文件
+    }), Components({
+        resolvers: [ElementPlusResolver({ importStyle: "sass" })],
+        dirs: ['src/components'],   //自动引入自定义组件
+        dts: 'src/components.d.ts'  //生成类型声明文件
+    }), cloudflare()],
     resolve: {
         alias: {
             '@': '/src',
